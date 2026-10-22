@@ -86,7 +86,7 @@ export const HISTORICAL_CASES: HistoricalCase[] = [
 // Plan SC: 충격 수치가 없는 기사는 이 값을 쓰고 "과거 사례 기준"임을 화면에 표시한다.
 export function typicalShock(
   type: IssueType,
-): { shock: ShockBase; basedOn: string[] } | null {
+): { shock: ShockBase; basedOn: string[]; sources: Source[] } | null {
   const cases = HISTORICAL_CASES.filter((c) => c.type === type);
   if (cases.length === 0) return null;
 
@@ -96,5 +96,9 @@ export function typicalShock(
   const mid = Math.floor(values.length / 2);
   const median = values.length % 2 === 1 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
 
-  return { shock: { value: median, unit }, basedOn: sameUnit.map((c) => c.id) };
+  return {
+    shock: { value: median, unit },
+    basedOn: sameUnit.map((c) => c.id),
+    sources: sameUnit.flatMap((c) => c.sources),
+  };
 }

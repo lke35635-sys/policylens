@@ -76,6 +76,66 @@ export type Coefficient =
       singleEstimate?: boolean; // 추정치가 하나뿐이라 min과 max가 같다
     };
 
+// ── 스트레스 테스트 계산 (calculate.ts) ─────────────────────────
+
+// 시나리오 3개와 충격 배율: 기사에서 읽은 충격을 중간(1배)으로 두고 작음 0.5배, 큼 1.5배 (PRD 5번)
+export const SCENARIO_KEYS = ["small", "medium", "large"] as const;
+export type ScenarioKey = (typeof SCENARIO_KEYS)[number];
+export const SCENARIO_MULTIPLIERS: Record<ScenarioKey, number> = {
+  small: 0.5,
+  medium: 1,
+  large: 1.5,
+};
+
+// 계산 함수에 넣는 값. shock이 null이면 기사에 충격 수치가 없다는 뜻이다.
+export interface StressInput {
+  type: IssueType;
+  shock: ShockBase | null;
+}
+
+// 계산에 쓰는 표. 계산 함수가 표 파일을 직접 불러오지 않고 받아서 쓰므로,
+// 실제 표와 시험용 표를 같은 함수로 계산해 볼 수 있다.
+export interface StressTables {
+  coefficients: Record<IssueType, Record<VariableKey, Coefficient>>;
+  typicalShock: (
+    type: IssueType,
+  ) => { shock: ShockBase; basedOn: string[]; sources: Source[] } | null;
+}
+
+// 시나리오 하나, 변수 하나의 변동 범위 (단위는 VARIABLE_META와 같고 기준금리는 bp)
+export interface ScenarioValue {
+  min: number;
+  max: number;
+  unit: string;
+  period: Period;
+}
+
+// 결과 화면의 "근거와 가정"에 그대로 쓰는 정보 (근거가 있는 변수만)
+export interface BasisItem {
+  variable: VariableKey;
+  sources: Source[];
+  assumption: string;
+  singleEstimate: boolean;
+}
+
+export interface StressResult {
+  type: IssueType;
+  // null = 기사에도, 과거 사례 표에도 충격 크기가 없어 계산하지 못함
+  shock:
+    | null
+    | {
+        value: number;
+        unit: string;
+        source: "article" | "history";
+        historyRefs?: { report: string; year: number }[];
+      };
+  // null = 계수 표에 출처가 없는 칸 ("근거 자료 없음"). 시나리오 3개에서 같은 변수는 모두 null이거나 모두 값이 있다.
+  scenarios: Record<ScenarioKey, Record<VariableKey, ScenarioValue | null>>;
+  basis: BasisItem[];
+  missing: VariableKey[]; // "근거 자료 없음"인 변수
+  verification: { passed: boolean; problems: string[] };
+}
+
 // 과거 유사 사례 한 건 (기사에 충격 수치가 없을 때 대신 쓰는 값의 근거)
 export interface HistoricalCase {
   id: string;
