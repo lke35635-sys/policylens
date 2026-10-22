@@ -31,6 +31,7 @@ export const sourceSchema = z.object({
   checkedAt: DATE, // 링크를 직접 열어 확인한 날
   archiveUrl: HTTPS_URL.optional(), // 보관본(웹 아카이브) 링크
   license: NONEMPTY.optional(), // 이용 조건 (예: 공공누리 1유형)
+  evidence: NONEMPTY.optional(), // 이 출처 페이지에 그대로 있는 근거 문장 (화면에는 보이지 않고, scripts/check-evidence.mjs가 출처 페이지와 대조한다)
 });
 
 export const historyItemSchema = z.object({

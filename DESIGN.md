@@ -203,6 +203,7 @@ interface Source {                 // 모든 내용에 붙는 출처
   checkedAt: string;               // 링크 확인일
   archiveUrl?: string;             // 보관본(웹 아카이브) 링크
   license?: string;                // 이용 조건 (예: 공공누리 1유형)
+  evidence?: string;               // 이 출처 페이지에 그대로 있는 근거 문장 (화면에는 안 보임, check-evidence.mjs가 출처 페이지와 대조)
 }
 
 interface Policy {

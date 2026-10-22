@@ -61,7 +61,8 @@
 > - 완료: 주제 변경(MacroLens → PolicyLens), PRD 여덟 항목 확정, PLAN·CLAUDE.md 작성. 옛 작업은 git 태그 `legacy-macrolens`와 `trash-can/legacy-macrolens-docs/`에 있다.
 > - 완료: 1번(옛 코드 정리, 빈 첫 화면), 2번(자료집 데이터 모양과 검사 도구: `lib/corpus/schema·types·verify·links`, `check-corpus.mjs`, `check-links.mjs`, 시험용 가짜 자료 `scripts/fixtures/`).
 > - 완료: 3번(정부 표 7개: 김대중~이재명, `src/data/governments.ts`). 기조 인용은 이용 조건(공공누리)이 확인된 6개 정부(김대중·이명박·박근혜·문재인·윤석열·이재명)에 넣었고, 노무현 정부는 「참여정부의 경제정책방향」(2003-06-11, 대통령기록관) 기록의 본문이 온라인에 없어 기록 링크만 두었다. 박근혜 정부 인용은 공공누리 제4유형(상업적 이용금지·변경금지)이라 앱을 상업적으로 쓰게 되면 다시 검토한다. 인용 대조 스크립트 `check-quotes.mjs`.
-> - 다음: 4번(통화정책 연혁 조사).
+> - 완료: 4번(통화정책 6개 = 국내 3 + 해외 3, `src/data/policies/monetary.ts`). 한국은행 기준금리 ↔ 미 연준 기준금리, 한국은행 유동성 공급 ↔ 미 연준 양적완화·긴축, 한·중 통화스와프 ↔ 중국 인민은행 통화정책. 근거 문장 58개를 `check-evidence.mjs`로 출처 페이지와 대조했다.
+> - 다음: 5번(무역·관세 정책 연혁 조사).
 
 ### A. 준비와 자료 틀
 1. 옛 스트레스 테스트 코드를 `trash-can/`으로 옮기고, 새 주제에서 쓸 것만 남겨 빌드가 통과하는 빈 첫 화면을 만든다.
