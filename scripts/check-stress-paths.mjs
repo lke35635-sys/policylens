@@ -3,6 +3,7 @@
 // 하나라도 어긋나면 종료 코드 1로 끝난다.
 import { alignedDomains, AXIS_UNIT, niceStep } from "../src/lib/stress/axis.ts";
 import { calculateStressTest } from "../src/lib/stress/calculate.ts";
+import { COEFFICIENTS } from "../src/lib/stress/coefficients.ts";
 import { OBSERVED_META, OBSERVED_SERIES } from "../src/lib/stress/observed-series.ts";
 import { buildScenarioPaths, chartValues, DEFAULT_PAST_MONTHS, monthLabel, STEPS_PER_YEAR } from "../src/lib/stress/paths.ts";
 import { getSampleIssues } from "../src/lib/stress/sample.ts";
@@ -115,7 +116,7 @@ check("세 시나리오의 과거 구간은 같다 (충격 크기와 무관한 �
   expect(a === JSON.stringify(paths.medium[0].past) && a === JSON.stringify(paths.large[0].past), "과거가 다름");
 });
 check("근거 없는 칸만 있는 결과(충격 크기를 모르는 경우)는 경로가 하나도 없다", () => {
-  const none = getSampleIssues()[2].result;
+  const none = calculateStressTest({ type: "commoditySupply", shock: null }, { coefficients: COEFFICIENTS, typicalShock: () => null });
   for (const k of SCENARIO_KEYS) expect(buildScenarioPaths(none, k, OBSERVED_SERIES).length === 0, `${k}`);
 });
 

@@ -103,12 +103,27 @@ check("기사에 충격 수치가 없으면 과거 사례 값(유가 10%)을 쓰
   expect(oilHistory.shock.historyRefs?.length > 0 && oilHistory.shock.historyRefs[0].year === 2026, "historyRefs가 없거나 연도가 다름");
   expectRange(oilHistory.scenarios.medium.gdp, -0.21, -0.1, "중간");
 });
-const noBasis = calculateStressTest({ type: "commoditySupply", shock: null }, realTables);
+// 6개 유형 모두 대표 충격이 있으므로, 과거 사례가 없는 경우는 대표 충격을 비운 표로 시험한다
+const noBasis = calculateStressTest({ type: "commoditySupply", shock: null }, { coefficients: COEFFICIENTS, typicalShock: () => null });
 check("과거 사례도 없는 유형은 계산하지 않는다 (shock null, 모든 칸 null, 검증은 통과)", () => {
   expect(noBasis.shock === null, "shock이 null이 아님");
   expect(noBasis.missing.length === VARIABLE_KEYS.length, `missing 개수: ${noBasis.missing.length}`);
   for (const key of SCENARIO_KEYS) for (const v of VARIABLE_KEYS) expect(noBasis.scenarios[key][v] === null, `${key}/${v}가 null이 아님`);
   expect(noBasis.verification.passed, noBasis.verification.problems.join("; "));
+});
+check("6개 유형 모두 기사에 수치가 없어도 과거 사례의 대표 충격으로 계산한다 (충격 크기가 있고 '과거 사례 기준'으로 표시)", () => {
+  for (const type of ISSUE_TYPES) {
+    const r = calculateStressTest({ type, shock: null }, realTables);
+    expect(r.shock?.source === "history" && r.shock.historyRefs?.length > 0, `${type}: ${JSON.stringify(r.shock)}`);
+    expect(r.verification.passed, `${type}: ${r.verification.problems.join("; ")}`);
+  }
+});
+check("대표 충격: 세계 성장 둔화는 2020년 한 건(5.57%p), 원자재는 2021·2022년의 가운데(43.125%)이고 사례 연도가 화면에 나온다", () => {
+  const g = calculateStressTest({ type: "globalSlowdown", shock: null }, realTables).shock;
+  const c = calculateStressTest({ type: "commoditySupply", shock: null }, realTables).shock;
+  expect(near(g.value, 5.57) && g.historyRefs.map((h) => h.year).join(",") === "2020", JSON.stringify(g));
+  expect(near(c.value, 43.125) && c.historyRefs.map((h) => h.year).join(",") === "2021,2022", JSON.stringify(c));
+  expectRange(calculateStressTest({ type: "globalSlowdown", shock: null }, realTables).scenarios.medium.gdp, -5.57, -3.342, "세계 둔화 GDP 중간");
 });
 check("기준금리 유형: 근거가 있는 GDP·환율만 값이 나오고 소비자물가·기준금리·코스피는 null이다 (연준 +200bp)", () => {
   const r = calculateStressTest({ type: "policyRate", shock: { value: 200, unit: "bp 연준 기준금리 인상폭" } }, realTables);

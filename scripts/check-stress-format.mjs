@@ -62,11 +62,11 @@ check("충격 출처: 기사 기준 / 과거 사례 기준", () => {
 
 console.log("\n2) 샘플 데이터");
 const samples = getSampleIssues();
-check("샘플은 이슈 상한(9개)만큼 있고 세 가지 상태(기사 기준 / 과거 사례 기준 / 계산 불가)를 모두 보여 준다", () => {
+check("샘플은 이슈 상한(9개)만큼 있고 두 가지 상태(기사 기준 / 과거 사례 기준)를 보여 준다 (계산 불가는 대표 충격이 없는 유형에서만 나오는데 지금은 없다)", () => {
   same(String(samples.length), "9", "개수");
   same(String(samples.filter((s) => s.result.shock?.source === "article").length), "6", "기사 기준");
-  same(String(samples.filter((s) => s.result.shock?.source === "history").length), "2", "과거 사례 기준");
-  same(String(samples.filter((s) => s.result.shock === null).length), "1", "계산 불가");
+  same(String(samples.filter((s) => s.result.shock?.source === "history").length), "3", "과거 사례 기준");
+  same(String(samples.filter((s) => s.result.shock === null).length), "0", "계산 불가");
   same(String(samples.filter((s) => s.approximate).length), "4", "근사치");
 });
 check("요약은 300자 이내이고 샘플 안내 문구가 있다", () => {
@@ -91,10 +91,11 @@ check("수출 규제 샘플: 충격 수치가 없어 과거 사례(30%) 값을 �
   same(formatShockSource(exportControl.shock).startsWith("과거 사례 기준: "), true, "출처 문구");
 });
 const commodity = samples[2].result;
-check("원자재 샘플: 충격 크기를 알 수 없어 모든 칸이 null이다", () => {
-  same(String(commodity.shock), "null", "shock");
+check("원자재 샘플: 충격 크기를 몰라 과거 사례(43.125%)를 쓰고, 근거 있는 소비자물가만 값이 나온다", () => {
+  same(commodity.shock.source, "history", "출처");
+  same(String(commodity.shock.value), "43.125", "충격 크기");
   for (const key of SCENARIO_KEYS) for (const v of VARIABLE_KEYS) {
-    if (commodity.scenarios[key][v] !== null) throw new Error(`${key}/${v}가 null이 아님`);
+    if ((commodity.scenarios[key][v] === null) === (v === "cpi")) throw new Error(`${key}/${v}`);
   }
 });
 

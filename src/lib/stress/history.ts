@@ -2,6 +2,7 @@
 // 이 표는 계수 표(coefficients.ts)와 같은 원칙을 따른다: 출처를 직접 확인한 사례만 넣고, 모르는 것은 비워 둔다.
 // 사례 조사는 개발 단계에서 사람이 하며, 앱이 실시간으로 검색하지 않는다 (PRD 6번).
 import type { HistoricalCase, IssueType, ShockBase, Source } from "./types";
+import { VALIDATION_CASES } from "./validation-cases";
 
 const 서울신문_2026_유가환율: Source = {
   institution: "서울신문",
@@ -27,7 +28,27 @@ const 한경연_2019_수출규제: Source = {
   via: "데일리안 보도",
 };
 
-// Plan SC: 확인된 사례만 넣는다. 사례가 없는 유형(원자재·공급망, 글로벌 경기 둔화)은 비어 있고, 기사에 충격 수치가 없으면 "대신 쓸 값 없음"이 된다.
+// 방향 일치율 검증용으로 내려받은 연도별 통계(validation-cases.ts)에서 "충격이 컸던 해"를 골라 과거 사례로 쓴다.
+// 충격 크기는 그해 연평균 변동(세계 성장률 하락 %p, 원자재 가격 상승 %)이고, 출처는 충격 크기를 낸 통계 하나만 붙인다.
+// 출처의 날짜는 그 사례의 연도로 적어, 화면에 "과거 사례 기준: …, 2020년"처럼 사건의 연도가 보이게 한다.
+// 검증은 계수 표의 방향만 보고 여기 충격 크기는 쓰지 않으므로, 같은 해를 두 곳에서 써도 검증이 부풀려지지 않는다.
+function fromValidation(id: string, note: string): HistoricalCase {
+  const c = VALIDATION_CASES.find((v) => v.id === id);
+  if (!c) throw new Error(`검증 사례를 찾을 수 없음: ${id}`);
+  return {
+    id: c.id,
+    type: c.type,
+    name: c.name,
+    date: String(c.year),
+    kind: "observed",
+    shock: c.shock,
+    observed: c.observed,
+    sources: [{ ...c.sources[0], date: String(c.year) }],
+    note,
+  };
+}
+
+// Plan SC: 확인된 사례만 넣는다. 충격(나쁜 쪽)이 아닌 해는 대표 충격으로 쓰지 않는다 (세계 성장률이 오른 2010·2021년, 원자재가 내린 2015년 제외).
 export const HISTORICAL_CASES: HistoricalCase[] = [
   {
     id: "oil-2026-03-19",
@@ -80,6 +101,18 @@ export const HISTORICAL_CASES: HistoricalCase[] = [
     sources: [한경연_2019_수출규제],
     note: "실제 관측이 아니라 모의실험의 가정이다. 이후 학술 분석은 실제 반도체 산업 타격이 제한적이었다고 평가했다.",
   },
+  fromValidation(
+    "globalSlowdown-2020",
+    "코로나19로 세계 성장률이 2.7%에서 -2.9%로 떨어진 해. 한 건뿐이라 대표 충격이 이 값 하나이고, 한 해의 평균이라 하루·분기 단위 충격보다 크다.",
+  ),
+  fromValidation(
+    "commoditySupply-2021",
+    "2021년 연평균 국제 원자재 가격(전체 지수)이 전년보다 52.6% 오른 해. 공급 병목과 수요 회복이 겹친 결과라 공급 차질만의 효과가 아니다.",
+  ),
+  fromValidation(
+    "commoditySupply-2022",
+    "2022년 연평균 국제 원자재 가격(전체 지수)이 전년보다 33.7% 오른 해. 러시아의 우크라이나 침공 등이 겹친 결과다.",
+  ),
 ];
 
 // 유형별 대표 충격: 사례가 하나면 그 값, 여럿이면 같은 단위끼리 중앙값. 사례가 없으면 null.
