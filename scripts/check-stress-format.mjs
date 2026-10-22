@@ -62,12 +62,12 @@ check("충격 출처: 기사 기준 / 과거 사례 기준", () => {
 
 console.log("\n2) 샘플 데이터");
 const samples = getSampleIssues();
-check("샘플은 한 차례 상한(3개) 이내이고 세 가지 상태를 모두 보여 준다", () => {
-  same(String(samples.length), "3", "개수");
-  same(String(samples.filter((s) => s.result.shock?.source === "article").length), "1", "기사 기준");
-  same(String(samples.filter((s) => s.result.shock?.source === "history").length), "1", "과거 사례 기준");
+check("샘플은 이슈 상한(9개)만큼 있고 세 가지 상태(기사 기준 / 과거 사례 기준 / 계산 불가)를 모두 보여 준다", () => {
+  same(String(samples.length), "9", "개수");
+  same(String(samples.filter((s) => s.result.shock?.source === "article").length), "6", "기사 기준");
+  same(String(samples.filter((s) => s.result.shock?.source === "history").length), "2", "과거 사례 기준");
   same(String(samples.filter((s) => s.result.shock === null).length), "1", "계산 불가");
-  same(String(samples.filter((s) => s.approximate).length), "2", "근사치");
+  same(String(samples.filter((s) => s.approximate).length), "4", "근사치");
 });
 check("요약은 300자 이내이고 샘플 안내 문구가 있다", () => {
   for (const s of samples) if (s.summary.length > 300) throw new Error(`${s.title}: 요약 ${s.summary.length}자`);
