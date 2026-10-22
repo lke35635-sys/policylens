@@ -136,6 +136,18 @@ export interface StressResult {
   verification: { passed: boolean; problems: string[] };
 }
 
+// 방향 일치율 검증용 과거 사례 한 건 (PLAN 3번). 충격 표의 과거 사례(HistoricalCase)와 겹치지 않는 사례만 쓴다.
+export interface ValidationCase {
+  id: string;
+  type: IssueType;
+  year: number;
+  name: string;
+  shock: ShockBase; // 그해 충격 크기 (예: 연평균 유가 변동률 %)
+  // 그해 실제 변화 (전년 대비 차이, %p). 방향을 비교할 때 쓴다.
+  observed: Partial<Record<VariableKey, { value: number; unit: string; note: string }>>;
+  sources: Source[];
+}
+
 // 과거 유사 사례 한 건 (기사에 충격 수치가 없을 때 대신 쓰는 값의 근거)
 export interface HistoricalCase {
   id: string;
