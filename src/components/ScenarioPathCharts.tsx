@@ -16,8 +16,7 @@ export function ScenarioPathCharts({ id, result }: { id: string; result: StressR
   if (allPaths.length === 0) return null; // 그릴 변수가 하나도 없으면 그래프를 만들지 않는다
 
   // 세 시나리오가 같은 눈금을 쓰도록 모든 시나리오의 값으로 한 번만 정한다
-  const fullDomains = alignedDomains(chartValues(allPaths, "left", true), chartValues(allPaths, "right", true));
-  const zoomDomains = alignedDomains(chartValues(allPaths, "left", false), chartValues(allPaths, "right", false));
+  const fullDomains = alignedDomains(chartValues(allPaths, "left"), chartValues(allPaths, "right"));
 
   const drawn = pathsByScenario.medium.map((p) => p.variable);
   const missing = VARIABLE_KEYS.filter((v) => !drawn.includes(v));
@@ -36,11 +35,12 @@ export function ScenarioPathCharts({ id, result }: { id: string; result: StressR
             최소~최대이고, 선 끝의 숫자는 충격 후 12개월(코스피는 1개월) 가운데 값이에요.
           </li>
           <li>
-            각 시나리오의 위 그래프는 과거와 함께 보는 전체 모습이고, 아래 <strong>확대 그래프</strong>는 충격 이후만 세로축을 크게 늘린 거예요.
-            시나리오 세 개가 같은 눈금이라 크기를 비교할 수 있어요.
+            충격 이후 선은 약 1주 간격으로 나눈 점을 이었고, 3개월마다 있는 작은 점에 마우스를 올리면 그 시점의 값과 범위가 보여요. 시나리오 세
+            개가 같은 눈금이라 크기를 비교할 수 있어요.
           </li>
           <li>
-            끝점의 값은 결과 표에서 나와 근거가 있지만, <strong>그 사이 경로의 모양(직선)은 가정</strong>이에요. 충격이 없다면 변화가 없다고 보았어요.
+            끝점의 값은 결과 표에서 나와 근거가 있지만, <strong>그 사이 경로의 모양은 가정</strong>이에요. 물가는 초반에 빠르게, GDP는 처음엔
+            느리다가 중간에 빨라지고, 환율·기준금리·코스피는 충격 직후 크게 움직인다고 보았어요. 충격이 없다면 변화가 없다고 보았어요.
           </li>
           <li>
             과거 통계는 각 기관이 공개한 가장 최근 월({OBSERVED_META.baseMonth})까지예요. GDP는 분기 자료라서 마지막으로 발표된 분기(
@@ -73,7 +73,6 @@ export function ScenarioPathCharts({ id, result }: { id: string; result: StressR
           result={result}
           paths={pathsByScenario[scenario]}
           fullDomains={fullDomains}
-          zoomDomains={zoomDomains}
         />
       ))}
 

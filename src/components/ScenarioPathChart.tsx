@@ -1,7 +1,7 @@
 // Design Ref: §3.3 시점별 그래프 (PLAN 6번) — 시나리오 하나(작음 / 중간 / 큼)의 "과거 실제 + 충격 이후 경로" 꺾은선 그래프.
-// 그래프 두 개를 보여 준다.
-// 1) 전체: 충격 12개월 전 ~ 충격 12개월 후. 충격 시점(0개월)에 세로 점선.
-// 2) 충격 이후 확대: 충격 이후만, 세로축을 크게 늘려서 작은 변화도 보이게 한다. 세 시나리오가 같은 눈금이라 크기를 비교할 수 있다.
+// 충격 12개월 전 ~ 충격 12개월 후를 한 장에 그린다. 충격 시점(0개월)에 세로 점선, 3개월마다 세로 눈금선.
+// 충격 이후 선은 약 1주(0.25개월) 간격으로 나눈 점을 잇고, 3개월마다 점을 찍어 시점별 값을 읽을 수 있게 한다.
+// 세 시나리오가 같은 눈금이라 크기를 비교할 수 있다.
 // - 세로축은 충격 시점의 값을 0으로 맞춘 변화량: 왼쪽 %p(GDP·소비자물가·기준금리), 오른쪽 %(환율·코스피). 두 축의 0은 같은 높이.
 // - 충격 이전: 실제 월별 통계(가는 선). 충격 이후: 표의 변동 범위에 도달하는 경로(굵은 선 = 범위의 가운데 값, 음영 = 최소~최대).
 // - 근거 자료가 없는 변수는 그리지 않는다. 추가 도구 없이 SVG로 직접 그린다.
@@ -130,6 +130,11 @@ function PathSvg({ id, title, description, scenario, result, paths, domains, fro
         {/* 충격 이후 구간 배경 */}
         <rect x={xAt(0)} y={margin.top} width={xAt(FUTURE_MONTHS) - xAt(0)} height={innerHeight} className="fill-zinc-100 dark:fill-zinc-900" />
 
+        {/* 가로 3개월 간격 세로 눈금선 */}
+        {xTicks.map((month) => (
+          <line key={`v${month}`} x1={xAt(month)} x2={xAt(month)} y1={margin.top} y2={plotBottom} className="stroke-zinc-200 dark:stroke-zinc-800" />
+        ))}
+
         {/* 눈금선과 0선 (두 축의 0은 같은 높이) */}
         {domains[gridAxis]!.ticks.map((tick) => (
           <line
@@ -223,6 +228,16 @@ function PathSvg({ id, title, description, scenario, result, paths, domains, fro
             className={STYLE[p.variable].stroke}
           />
         ))}
+        {/* 3개월마다 작은 점 (코스피는 0.5개월 지점) */}
+        {paths.map((p) =>
+          p.future
+            .filter((q) => q.month > 0 && q.month < p.horizon && (p.horizon === 1 ? Math.abs(q.month - 0.5) < 1e-9 : q.month % 3 === 0))
+            .map((q) => (
+              <circle key={`dot-${p.variable}-${q.month}`} cx={xAt(q.month)} cy={yAt(p.axis, q.mid)} r={3.5} className={`${STYLE[p.variable].fill} stroke-white dark:stroke-black`} strokeWidth={1.5}>
+                <title>{`${p.legend} · 충격 후 ${q.month}개월: 가운데 ${formatNumber(q.mid)}${AXIS_UNIT[p.axis]} (범위 ${formatNumber(q.min)} ~ ${formatNumber(q.max)})`}</title>
+              </circle>
+            )),
+        )}
         {paths.map((p) => {
           const end = p.future[p.future.length - 1];
           const x = xAt(end.month);
@@ -258,11 +273,10 @@ interface ScenarioPathChartProps {
   scenario: ScenarioKey;
   result: StressResult;
   paths: ScenarioPath[]; // 이 시나리오에서 그릴 변수들의 경로
-  fullDomains: Domains; // 전체 그래프의 세로축 (세 시나리오가 같다)
-  zoomDomains: Domains; // 충격 이후 확대 그래프의 세로축 (세 시나리오가 같다)
+  fullDomains: Domains; // 그래프의 세로축 (세 시나리오가 같다)
 }
 
-export function ScenarioPathChart({ id, scenario, result, paths, fullDomains, zoomDomains }: ScenarioPathChartProps) {
+export function ScenarioPathChart({ id, scenario, result, paths, fullDomains }: ScenarioPathChartProps) {
   if (paths.length === 0) return null; // 그릴 변수가 하나도 없으면 그래프를 만들지 않는다
 
   const pastMonths = -paths[0].past[0].month; // 그린 과거 구간의 길이
@@ -270,6 +284,8 @@ export function ScenarioPathChart({ id, scenario, result, paths, fullDomains, zo
     .map((p) => `${p.legend}: 충격 후 ${p.horizon}개월 가운데 ${formatNumber(p.future[p.future.length - 1].mid)}`)
     .join(". ");
   const label = SCENARIO_LABEL[scenario];
+  // 3개월마다 눈금을 둔다 (과거 12개월 + 충격 이후 12개월이면 9개)
+  const xTicks = Array.from({ length: (pastMonths + FUTURE_MONTHS) / 3 + 1 }, (_, i) => -pastMonths + i * 3);
 
   return (
     <figure className="flex flex-col gap-3">
@@ -288,26 +304,8 @@ export function ScenarioPathChart({ id, scenario, result, paths, fullDomains, zo
         domains={fullDomains}
         fromMonth={-pastMonths}
         height={340}
-        xTicks={[-pastMonths, -Math.round(pastMonths / 2), 0, 6, 12]}
+        xTicks={xTicks}
         caption={{ left: "과거 실제", right: "충격 이후 (가정된 경로)" }}
-      />
-
-      <p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-        충격 이후 확대{" "}
-        <span className="font-normal text-zinc-500 dark:text-zinc-400">(세로축을 크게 늘렸고, 작음·중간·큼이 같은 눈금이에요)</span>
-      </p>
-      <PathSvg
-        id={`${id}-zoom`}
-        title={`${label} 시나리오: 충격 이후 12개월 확대 그래프`}
-        description={description}
-        scenario={scenario}
-        result={result}
-        paths={paths}
-        domains={zoomDomains}
-        fromMonth={0}
-        height={260}
-        xTicks={[0, 3, 6, 9, 12]}
-        caption={{ right: "충격 이후 12개월 (가정된 경로)" }}
       />
 
       {/* 범례: 색과 끝점 모양, 어느 축을 읽는지 */}
