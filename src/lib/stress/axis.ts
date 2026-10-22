@@ -30,7 +30,7 @@ function paddedRange(values: number[]): { lo: number; hi: number } {
 }
 
 function ticksOf(lo: number, hi: number): number[] {
-  const step = niceStep((hi - lo) / 4);
+  const step = niceStep((hi - lo) / 14);
   const ticks: number[] = [];
   for (let i = Math.ceil(lo / step - 1e-9); i <= Math.floor(hi / step + 1e-9); i += 1) {
     ticks.push(Number((i * step).toFixed(10)) + 0); // +0은 -0을 0으로 바꾼다

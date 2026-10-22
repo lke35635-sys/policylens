@@ -1,6 +1,6 @@
 // Design Ref: §3.3 시점별 그래프 (PLAN 6번) — 시나리오 하나(작음 / 중간 / 큼)의 "과거 실제 + 충격 이후 경로" 꺾은선 그래프.
 // 충격 12개월 전 ~ 충격 12개월 후를 한 장에 그린다. 충격 시점(0개월)에 세로 점선, 3개월마다 세로 눈금선.
-// 충격 이후 선은 약 1주(0.25개월) 간격으로 나눈 점을 잇고, 3개월마다 점을 찍어 시점별 값을 읽을 수 있게 한다.
+// 충격 이후 선은 한 달 간격 점을 잇고, 매달 점을 찍어 시점별 값을 읽을 수 있게 한다.
 // 세 시나리오가 같은 눈금이라 크기를 비교할 수 있다.
 // - 세로축은 충격 시점의 값을 0으로 맞춘 변화량: 왼쪽 %p(GDP·소비자물가·기준금리), 오른쪽 %(환율·코스피). 두 축의 0은 같은 높이.
 // - 충격 이전: 실제 월별 통계(가는 선). 충격 이후: 표의 변동 범위에 도달하는 경로(굵은 선 = 범위의 가운데 값, 음영 = 최소~최대).
@@ -228,10 +228,10 @@ function PathSvg({ id, title, description, scenario, result, paths, domains, fro
             className={STYLE[p.variable].stroke}
           />
         ))}
-        {/* 3개월마다 작은 점 (코스피는 0.5개월 지점) */}
+        {/* 매달 작은 점 (코스피는 0.5개월 지점) */}
         {paths.map((p) =>
           p.future
-            .filter((q) => q.month > 0 && q.month < p.horizon && (p.horizon === 1 ? Math.abs(q.month - 0.5) < 1e-9 : q.month % 3 === 0))
+            .filter((q) => q.month > 0 && q.month < p.horizon && (p.horizon === 1 ? Math.abs(q.month - 0.5) < 1e-9 : true))
             .map((q) => (
               <circle key={`dot-${p.variable}-${q.month}`} cx={xAt(q.month)} cy={yAt(p.axis, q.mid)} r={3.5} className={`${STYLE[p.variable].fill} stroke-white dark:stroke-black`} strokeWidth={1.5}>
                 <title>{`${p.legend} · 충격 후 ${q.month}개월: 가운데 ${formatNumber(q.mid)}${AXIS_UNIT[p.axis]} (범위 ${formatNumber(q.min)} ~ ${formatNumber(q.max)})`}</title>
@@ -303,7 +303,7 @@ export function ScenarioPathChart({ id, scenario, result, paths, fullDomains }: 
         paths={paths}
         domains={fullDomains}
         fromMonth={-pastMonths}
-        height={340}
+        height={520}
         xTicks={xTicks}
         caption={{ left: "과거 실제", right: "충격 이후 (가정된 경로)" }}
       />

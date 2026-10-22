@@ -50,8 +50,8 @@ function relativeTo(variable: VariableKey, value: number, base: number): number 
 // 그래프에 그리는 과거 구간의 길이(개월). 저장된 통계는 더 길지만, 짧게 그려야 충격 이후 구간이 잘 보인다.
 export const DEFAULT_PAST_MONTHS = 12;
 
-// 충격 이후 구간을 나누는 간격: 1년은 0.25개월(약 1주)마다, 코스피(1개월)는 0.1개월마다 한 점
-export const STEPS_PER_YEAR = 48;
+// 충격 이후 구간을 나누는 간격: 1년은 한 달마다, 코스피(1개월)는 0.1개월마다 한 점
+export const STEPS_PER_YEAR = 12;
 export const STEPS_SHORT = 10;
 
 // 충격 이후 경로의 모양(가정). 0(충격 시점) → 1(끝점)로 가는 비율을 돌려주고, x가 1이면 반드시 1이라 끝점은 표의 값 그대로다.

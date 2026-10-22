@@ -84,11 +84,11 @@ check("충격 이후는 0개월에서 시작해 12개월에 표의 값에 도달
   expect(near(f[0].mid, 0) && near(f[0].min, 0) && near(f[0].max, 0), "0개월은 변화 없음");
   expect(near(last.mid, -0.31) && near(last.min, -0.42) && near(last.max, -0.2), JSON.stringify(last));
 });
-check(`충격 이후는 ${STEPS_PER_YEAR}칸(0.25개월 간격, 점 ${STEPS_PER_YEAR + 1}개)으로 나뉘고 간격이 일정하다`, () => {
+check(`충격 이후는 ${STEPS_PER_YEAR}칸(1개월 간격, 점 ${STEPS_PER_YEAR + 1}개)으로 나뉘고 간격이 일정하다 (한 달 단위)`, () => {
   const f = paths.medium[0].future;
   expect(f.length === STEPS_PER_YEAR + 1, `점 개수 ${f.length}`);
   for (let i = 1; i < f.length; i += 1) expect(near(f[i].month - f[i - 1].month, 12 / STEPS_PER_YEAR), `${i}번째 간격`);
-  expect(f.some((q) => q.month === 3) && f.some((q) => q.month === 6) && f.some((q) => q.month === 9), "3·6·9개월 점");
+  expect(f.some((q) => q.month === 3) && f.some((q) => q.month === 6) && f.some((q) => q.month === 9), "3·6·9개월 점이 있음");
 });
 check("경로는 직선이 아니고 변수마다 모양이 다르다 (물가는 앞쪽이 빠르고, GDP는 뒤쪽이 빠르다)", () => {
   const gdp = paths.medium[0].future;
