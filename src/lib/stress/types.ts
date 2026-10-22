@@ -87,6 +87,13 @@ export const SCENARIO_MULTIPLIERS: Record<ScenarioKey, number> = {
   large: 1.5,
 };
 
+// 화면에 쓰는 시나리오 이름 (표 머리글과 그래프 가로축이 같은 이름을 쓴다)
+export const SCENARIO_LABEL: Record<ScenarioKey, string> = {
+  small: "작음",
+  medium: "중간",
+  large: "큼",
+};
+
 // 계산 함수에 넣는 값. shock이 null이면 기사에 충격 수치가 없다는 뜻이다.
 export interface StressInput {
   type: IssueType;
@@ -134,6 +141,23 @@ export interface StressResult {
   basis: BasisItem[];
   missing: VariableKey[]; // "근거 자료 없음"인 변수
   verification: { passed: boolean; problems: string[] };
+}
+
+// ── 시점별 그래프용 과거 실제 통계 (PLAN 6번) ──────────────────────
+
+// 월별 값 한 개 (month는 "2025-05" 모양)
+export interface ObservedPoint {
+  month: string;
+  value: number;
+}
+
+// 변수 하나의 과거 실제 월별 통계. 그래프에서는 충격 시점(기준 월)의 값을 0으로 맞춘 변화량으로 쓴다.
+export interface ObservedSeries {
+  variable: VariableKey;
+  unit: string; // 값의 단위 (예: "%" 상승률, "원", "지수")
+  derivation: string; // 어떻게 가공했는지 (예: 전년 동월 대비 상승률)
+  points: ObservedPoint[]; // 기준 월에서 거꾸로 36개월 + 기준 월, 오래된 순
+  source: Source;
 }
 
 // 방향 일치율 검증용 과거 사례 한 건 (PLAN 3번). 충격 표의 과거 사례(HistoricalCase)와 겹치지 않는 사례만 쓴다.

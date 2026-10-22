@@ -3,17 +3,12 @@
 import { formatPeriod, formatRange } from "@/lib/stress/format";
 import {
   SCENARIO_KEYS,
+  SCENARIO_LABEL,
   SCENARIO_MULTIPLIERS,
   VARIABLE_KEYS,
   VARIABLE_META,
 } from "@/lib/stress/types";
-import type { ScenarioKey, StressResult } from "@/lib/stress/types";
-
-const SCENARIO_LABEL: Record<ScenarioKey, string> = {
-  small: "작음",
-  medium: "중간",
-  large: "큼",
-};
+import type { StressResult } from "@/lib/stress/types";
 
 export function ScenarioTable({ result }: { result: StressResult }) {
   return (
