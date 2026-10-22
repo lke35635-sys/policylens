@@ -42,7 +42,10 @@ export function ScenarioPathCharts({ id, result }: { id: string; result: StressR
           <li>
             끝점의 값은 결과 표에서 나와 근거가 있지만, <strong>그 사이 경로의 모양(직선)은 가정</strong>이에요. 충격이 없다면 변화가 없다고 보았어요.
           </li>
-          <li>과거 통계는 공개 서비스에 올라온 가장 최근 자료({OBSERVED_META.baseMonth})까지라서 오늘보다 오래됐어요.</li>
+          <li>
+            과거 통계는 각 기관이 공개한 가장 최근 월({OBSERVED_META.baseMonth})까지예요. GDP는 분기 자료라서 마지막으로 발표된 분기(
+            {OBSERVED_META.gdpLastQuarter})의 값을 이어서 써요.
+          </li>
         </ul>
         <details className="rounded-lg border border-zinc-200 px-4 py-2 dark:border-zinc-800">
           <summary className="cursor-pointer font-medium">과거 실제 통계 출처 보기</summary>

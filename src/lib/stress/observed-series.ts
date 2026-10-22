@@ -1,246 +1,183 @@
-// 이 파일은 scripts/fetch-observed-series.mjs가 IMF 국제금융통계(IFS)에서 내려받아 만든다. 직접 고치지 않는다.
+// 이 파일은 scripts/fetch-observed-series.mjs가 각 기관(IMF, BIS, OECD·FRED)의 최신 자료에서 내려받아 만든다. 직접 고치지 않는다.
 // 시점별 그래프(PLAN 6번)의 "과거 실제" 구간에 쓰는 한국 월별 통계다.
 import type { ObservedSeries, VariableKey } from "./types";
 
 export const OBSERVED_META = {
   "generatedAt": "2026-10-22",
-  "baseMonth": "2025-05",
+  "baseMonth": "2026-09",
   "pastMonths": 36,
-  "note": "공개 서비스(DBnomics)에 올라온 가장 최근 자료 기준이라 오늘 날짜보다 오래됐을 수 있다. 앱이 실행 중에 통계를 부르지 않고 이 파일의 고정값을 쓴다."
+  "gdpLastQuarter": "2026-Q2",
+  "note": "각 기관이 공개한 가장 최근 월까지의 자료다. 앱은 실행 중에 통계를 부르지 않고 이 파일의 고정값을 쓴다. 새 자료를 쓰려면 스크립트를 다시 실행한다."
 };
 
 export const OBSERVED_SERIES: Record<VariableKey, ObservedSeries> = {
   "gdp": {
     "variable": "gdp",
     "unit": "%",
-    "derivation": "분기 실질 GDP(계절조정)의 전년 동기 대비 성장률. 같은 분기의 세 달에 같은 값",
+    "derivation": "OECD 분기 실질 GDP의 전년 동기 대비 성장률(계절조정). 같은 분기의 세 달에 같은 값이고, 아직 발표되지 않은 분기의 달은 마지막 발표 분기(2026-Q2)의 값을 유지",
     "points": [
       {
-        "month": "2022-05",
-        "value": 2.8391
-      },
-      {
-        "month": "2022-06",
-        "value": 2.8391
-      },
-      {
-        "month": "2022-07",
-        "value": 3.3493
-      },
-      {
-        "month": "2022-08",
-        "value": 3.3493
-      },
-      {
-        "month": "2022-09",
-        "value": 3.3493
-      },
-      {
-        "month": "2022-10",
-        "value": 1.3945
-      },
-      {
-        "month": "2022-11",
-        "value": 1.3945
-      },
-      {
-        "month": "2022-12",
-        "value": 1.3945
-      },
-      {
-        "month": "2023-01",
-        "value": 1.3692
-      },
-      {
-        "month": "2023-02",
-        "value": 1.3692
-      },
-      {
-        "month": "2023-03",
-        "value": 1.3692
-      },
-      {
-        "month": "2023-04",
-        "value": 1.1687
-      },
-      {
-        "month": "2023-05",
-        "value": 1.1687
-      },
-      {
-        "month": "2023-06",
-        "value": 1.1687
-      },
-      {
-        "month": "2023-07",
-        "value": 1.4589
-      },
-      {
-        "month": "2023-08",
-        "value": 1.4589
-      },
-      {
         "month": "2023-09",
-        "value": 1.4589
+        "value": 1.4665
       },
       {
         "month": "2023-10",
-        "value": 2.3331
+        "value": 2.6181
       },
       {
         "month": "2023-11",
-        "value": 2.3331
+        "value": 2.6181
       },
       {
         "month": "2023-12",
-        "value": 2.3331
+        "value": 2.6181
       },
       {
         "month": "2024-01",
-        "value": 3.1671
+        "value": 3.4279
       },
       {
         "month": "2024-02",
-        "value": 3.1671
+        "value": 3.4279
       },
       {
         "month": "2024-03",
-        "value": 3.1671
+        "value": 3.4279
       },
       {
         "month": "2024-04",
-        "value": 2.2312
+        "value": 2.5683
       },
       {
         "month": "2024-05",
-        "value": 2.2312
+        "value": 2.5683
       },
       {
         "month": "2024-06",
-        "value": 2.2312
+        "value": 2.5683
       },
       {
         "month": "2024-07",
-        "value": 1.5282
+        "value": 1.6533
       },
       {
         "month": "2024-08",
-        "value": 1.5282
+        "value": 1.6533
       },
       {
         "month": "2024-09",
-        "value": 1.5282
+        "value": 1.6533
       },
       {
         "month": "2024-10",
-        "value": 1.111
+        "value": 1.1543
       },
       {
         "month": "2024-11",
-        "value": 1.111
+        "value": 1.1543
       },
       {
         "month": "2024-12",
-        "value": 1.111
+        "value": 1.1543
       },
       {
         "month": "2025-01",
-        "value": -0.2806
+        "value": -0.0325
       },
       {
         "month": "2025-02",
-        "value": -0.2806
+        "value": -0.0325
       },
       {
         "month": "2025-03",
-        "value": -0.2806
+        "value": -0.0325
       },
       {
         "month": "2025-04",
-        "value": 0.5531
+        "value": 0.7692
       },
       {
         "month": "2025-05",
-        "value": 0.5531
+        "value": 0.7692
+      },
+      {
+        "month": "2025-06",
+        "value": 0.7692
+      },
+      {
+        "month": "2025-07",
+        "value": 2.0851
+      },
+      {
+        "month": "2025-08",
+        "value": 2.0851
+      },
+      {
+        "month": "2025-09",
+        "value": 2.0851
+      },
+      {
+        "month": "2025-10",
+        "value": 1.7339
+      },
+      {
+        "month": "2025-11",
+        "value": 1.7339
+      },
+      {
+        "month": "2025-12",
+        "value": 1.7339
+      },
+      {
+        "month": "2026-01",
+        "value": 3.7755
+      },
+      {
+        "month": "2026-02",
+        "value": 3.7755
+      },
+      {
+        "month": "2026-03",
+        "value": 3.7755
+      },
+      {
+        "month": "2026-04",
+        "value": 3.7593
+      },
+      {
+        "month": "2026-05",
+        "value": 3.7593
+      },
+      {
+        "month": "2026-06",
+        "value": 3.7593
+      },
+      {
+        "month": "2026-07",
+        "value": 3.7593
+      },
+      {
+        "month": "2026-08",
+        "value": 3.7593
+      },
+      {
+        "month": "2026-09",
+        "value": 3.7593
       }
     ],
     "source": {
-      "institution": "IMF",
-      "title": "IFS: 한국 실질 GDP, 계절조정, 분기, 자국통화 (NGDP_R_SA_XDC)",
-      "date": "2025-08-26",
-      "url": "https://api.db.nomics.world/v22/series/IMF/IFS/Q.KR.NGDP_R_SA_XDC?observations=1",
-      "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+      "institution": "OECD (FRED 경유)",
+      "title": "Real GDP for Korea, 전년 동기 대비 증가율, 계절조정, 분기 (KORGDPRQPSMEI)",
+      "date": "2026-10-22",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=KORGDPRQPSMEI",
+      "via": "FRED 직접 조회 (조회일 2026-10-22)"
     }
   },
   "cpi": {
     "variable": "cpi",
     "unit": "%",
-    "derivation": "소비자물가지수의 전년 동월 대비 상승률",
+    "derivation": "IMF 소비자물가지수(전 품목)의 전년 동월 대비 상승률",
     "points": [
-      {
-        "month": "2022-05",
-        "value": 5.3405
-      },
-      {
-        "month": "2022-06",
-        "value": 6.0363
-      },
-      {
-        "month": "2022-07",
-        "value": 6.327
-      },
-      {
-        "month": "2022-08",
-        "value": 5.7226
-      },
-      {
-        "month": "2022-09",
-        "value": 5.4764
-      },
-      {
-        "month": "2022-10",
-        "value": 5.6217
-      },
-      {
-        "month": "2022-11",
-        "value": 5.0063
-      },
-      {
-        "month": "2022-12",
-        "value": 5.0173
-      },
-      {
-        "month": "2023-01",
-        "value": 4.9785
-      },
-      {
-        "month": "2023-02",
-        "value": 4.6576
-      },
-      {
-        "month": "2023-03",
-        "value": 4.1659
-      },
-      {
-        "month": "2023-04",
-        "value": 3.6881
-      },
-      {
-        "month": "2023-05",
-        "value": 3.3767
-      },
-      {
-        "month": "2023-06",
-        "value": 2.7262
-      },
-      {
-        "month": "2023-07",
-        "value": 2.3545
-      },
-      {
-        "month": "2023-08",
-        "value": 3.36
-      },
       {
         "month": "2023-09",
         "value": 3.7034
@@ -324,85 +261,85 @@ export const OBSERVED_SERIES: Record<VariableKey, ObservedSeries> = {
       {
         "month": "2025-05",
         "value": 1.9018
+      },
+      {
+        "month": "2025-06",
+        "value": 2.1697
+      },
+      {
+        "month": "2025-07",
+        "value": 2.0941
+      },
+      {
+        "month": "2025-08",
+        "value": 1.6675
+      },
+      {
+        "month": "2025-09",
+        "value": 2.102
+      },
+      {
+        "month": "2025-10",
+        "value": 2.3803
+      },
+      {
+        "month": "2025-11",
+        "value": 2.4476
+      },
+      {
+        "month": "2025-12",
+        "value": 2.3149
+      },
+      {
+        "month": "2026-01",
+        "value": 2.005
+      },
+      {
+        "month": "2026-02",
+        "value": 1.9986
+      },
+      {
+        "month": "2026-03",
+        "value": 2.1584
+      },
+      {
+        "month": "2026-04",
+        "value": 2.5692
+      },
+      {
+        "month": "2026-05",
+        "value": 3.1392
+      },
+      {
+        "month": "2026-06",
+        "value": 3.164
+      },
+      {
+        "month": "2026-07",
+        "value": 2.7892
+      },
+      {
+        "month": "2026-08",
+        "value": 3.0915
+      },
+      {
+        "month": "2026-09",
+        "value": 2.8789
       }
     ],
     "source": {
       "institution": "IMF",
-      "title": "IFS: 한국 소비자물가지수, 전 품목, 월별 (PCPI_IX)",
-      "date": "2025-08-26",
-      "url": "https://api.db.nomics.world/v22/series/IMF/IFS/M.KR.PCPI_IX?observations=1",
-      "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+      "title": "소비자물가지수(CPI), 한국, 전 품목, 월별 (IMF.STA CPI)",
+      "date": "2026-10-22",
+      "url": "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,CPI/KOR.CPI._T.IX.M?startPeriod=2022-01",
+      "via": "IMF 데이터 서비스 직접 조회 (조회일 2026-10-22)"
     }
   },
   "policyRate": {
     "variable": "policyRate",
     "unit": "%",
-    "derivation": "정책금리 그대로",
+    "derivation": "한국은행 기준금리 그대로 (월말 기준)",
     "points": [
-      {
-        "month": "2022-05",
-        "value": 1.75
-      },
-      {
-        "month": "2022-06",
-        "value": 1.75
-      },
-      {
-        "month": "2022-07",
-        "value": 2.25
-      },
-      {
-        "month": "2022-08",
-        "value": 2.5
-      },
-      {
-        "month": "2022-09",
-        "value": 2.5
-      },
-      {
-        "month": "2022-10",
-        "value": 3
-      },
-      {
-        "month": "2022-11",
-        "value": 3.25
-      },
-      {
-        "month": "2022-12",
-        "value": 3.25
-      },
-      {
-        "month": "2023-01",
-        "value": 3.5
-      },
-      {
-        "month": "2023-02",
-        "value": 3.5
-      },
-      {
-        "month": "2023-03",
-        "value": 3.5
-      },
-      {
-        "month": "2023-04",
-        "value": 3.5
-      },
-      {
-        "month": "2023-05",
-        "value": 3.5
-      },
-      {
-        "month": "2023-06",
-        "value": 3.5
-      },
-      {
-        "month": "2023-07",
-        "value": 3.5
-      },
-      {
-        "month": "2023-08",
-        "value": 3.5
-      },
       {
         "month": "2023-09",
         "value": 3.5
@@ -486,338 +423,402 @@ export const OBSERVED_SERIES: Record<VariableKey, ObservedSeries> = {
       {
         "month": "2025-05",
         "value": 2.5
+      },
+      {
+        "month": "2025-06",
+        "value": 2.5
+      },
+      {
+        "month": "2025-07",
+        "value": 2.5
+      },
+      {
+        "month": "2025-08",
+        "value": 2.5
+      },
+      {
+        "month": "2025-09",
+        "value": 2.5
+      },
+      {
+        "month": "2025-10",
+        "value": 2.5
+      },
+      {
+        "month": "2025-11",
+        "value": 2.5
+      },
+      {
+        "month": "2025-12",
+        "value": 2.5
+      },
+      {
+        "month": "2026-01",
+        "value": 2.5
+      },
+      {
+        "month": "2026-02",
+        "value": 2.5
+      },
+      {
+        "month": "2026-03",
+        "value": 2.5
+      },
+      {
+        "month": "2026-04",
+        "value": 2.5
+      },
+      {
+        "month": "2026-05",
+        "value": 2.5
+      },
+      {
+        "month": "2026-06",
+        "value": 2.5
+      },
+      {
+        "month": "2026-07",
+        "value": 2.75
+      },
+      {
+        "month": "2026-08",
+        "value": 3
+      },
+      {
+        "month": "2026-09",
+        "value": 3
       }
     ],
     "source": {
-      "institution": "IMF",
-      "title": "IFS: 한국 정책금리(Monetary Policy-Related Interest Rate), 월별 (FPOLM_PA)",
-      "date": "2025-08-26",
-      "url": "https://api.db.nomics.world/v22/series/IMF/IFS/M.KR.FPOLM_PA?observations=1",
-      "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+      "institution": "BIS",
+      "title": "중앙은행 정책금리: 한국은행 기준금리, 월말 (WS_CBPOL)",
+      "date": "2026-10-22",
+      "url": "https://stats.bis.org/api/v1/data/WS_CBPOL/M.KR?startPeriod=2022-01&format=csv",
+      "via": "BIS 데이터 서비스 직접 조회 (조회일 2026-10-22)"
     }
   },
   "fx": {
     "variable": "fx",
     "unit": "원",
-    "derivation": "원/달러 월평균 환율 그대로",
+    "derivation": "원/달러 월평균 환율 그대로 (미 연준 H.10)",
     "points": [
       {
-        "month": "2022-05",
-        "value": 1269.88
-      },
-      {
-        "month": "2022-06",
-        "value": 1277.35
-      },
-      {
-        "month": "2022-07",
-        "value": 1307.4
-      },
-      {
-        "month": "2022-08",
-        "value": 1318.44
-      },
-      {
-        "month": "2022-09",
-        "value": 1391.59
-      },
-      {
-        "month": "2022-10",
-        "value": 1426.66
-      },
-      {
-        "month": "2022-11",
-        "value": 1364.1
-      },
-      {
-        "month": "2022-12",
-        "value": 1296.22
-      },
-      {
-        "month": "2023-01",
-        "value": 1247.25
-      },
-      {
-        "month": "2023-02",
-        "value": 1270.74
-      },
-      {
-        "month": "2023-03",
-        "value": 1305.73
-      },
-      {
-        "month": "2023-04",
-        "value": 1320.01
-      },
-      {
-        "month": "2023-05",
-        "value": 1328.21
-      },
-      {
-        "month": "2023-06",
-        "value": 1296.71
-      },
-      {
-        "month": "2023-07",
-        "value": 1286.3
-      },
-      {
-        "month": "2023-08",
-        "value": 1318.47
-      },
-      {
         "month": "2023-09",
-        "value": 1329.47
+        "value": 1334.237
       },
       {
         "month": "2023-10",
-        "value": 1350.69
+        "value": 1351.5071
       },
       {
         "month": "2023-11",
-        "value": 1310.39
+        "value": 1308.154
       },
       {
         "month": "2023-12",
-        "value": 1303.98
+        "value": 1304.3945
       },
       {
         "month": "2024-01",
-        "value": 1323.57
+        "value": 1325.9119
       },
       {
         "month": "2024-02",
-        "value": 1331.74
+        "value": 1331.3345
       },
       {
         "month": "2024-03",
-        "value": 1330.69
+        "value": 1331.6752
       },
       {
         "month": "2024-04",
-        "value": 1367.83
+        "value": 1367.8555
       },
       {
         "month": "2024-05",
-        "value": 1365.39
+        "value": 1364.7241
       },
       {
         "month": "2024-06",
-        "value": 1380.13
+        "value": 1379.0526
       },
       {
         "month": "2024-07",
-        "value": 1383.38
+        "value": 1382.0473
       },
       {
         "month": "2024-08",
-        "value": 1354.15
+        "value": 1351.4436
       },
       {
         "month": "2024-09",
-        "value": 1334.82
+        "value": 1330.6985
       },
       {
         "month": "2024-10",
-        "value": 1361
+        "value": 1362.3691
       },
       {
         "month": "2024-11",
-        "value": 1393.38
+        "value": 1395.02
       },
       {
         "month": "2024-12",
-        "value": 1434.42
+        "value": 1439.9967
       },
       {
         "month": "2025-01",
-        "value": 1455.79
+        "value": 1452.1919
       },
       {
         "month": "2025-02",
-        "value": 1445.56
+        "value": 1444.7932
       },
       {
         "month": "2025-03",
-        "value": 1456.95
+        "value": 1458.3452
       },
       {
         "month": "2025-04",
-        "value": 1444.31
+        "value": 1439.7777
       },
       {
         "month": "2025-05",
-        "value": 1394.49
+        "value": 1391.4376
+      },
+      {
+        "month": "2025-06",
+        "value": 1364.6775
+      },
+      {
+        "month": "2025-07",
+        "value": 1379.2959
+      },
+      {
+        "month": "2025-08",
+        "value": 1388.999
+      },
+      {
+        "month": "2025-09",
+        "value": 1392.9052
+      },
+      {
+        "month": "2025-10",
+        "value": 1423.0795
+      },
+      {
+        "month": "2025-11",
+        "value": 1459.8789
+      },
+      {
+        "month": "2025-12",
+        "value": 1465.355
+      },
+      {
+        "month": "2026-01",
+        "value": 1455.496
+      },
+      {
+        "month": "2026-02",
+        "value": 1447.2858
+      },
+      {
+        "month": "2026-03",
+        "value": 1490.5177
+      },
+      {
+        "month": "2026-04",
+        "value": 1483.7977
+      },
+      {
+        "month": "2026-05",
+        "value": 1488.396
+      },
+      {
+        "month": "2026-06",
+        "value": 1529.4619
+      },
+      {
+        "month": "2026-07",
+        "value": 1486.0132
+      },
+      {
+        "month": "2026-08",
+        "value": 1403.2186
+      },
+      {
+        "month": "2026-09",
+        "value": 1359.209
       }
     ],
     "source": {
-      "institution": "IMF",
-      "title": "IFS: 원/달러 환율, 기간 평균, 월별 (ENDA_XDC_USD_RATE)",
-      "date": "2025-08-26",
-      "url": "https://api.db.nomics.world/v22/series/IMF/IFS/M.KR.ENDA_XDC_USD_RATE?observations=1",
-      "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+      "institution": "미 연준 H.10 (FRED 경유)",
+      "title": "원/달러 환율, 월평균 (EXKOUS)",
+      "date": "2026-10-22",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=EXKOUS",
+      "via": "FRED 직접 조회 (조회일 2026-10-22)"
     }
   },
   "kospi": {
     "variable": "kospi",
     "unit": "지수",
-    "derivation": "주가지수 그대로 (IMF IFS의 한국 주가지수)",
+    "derivation": "OECD 주가지수(2015=100) 그대로. 코스피 포인트와 단위가 다르다",
     "points": [
       {
-        "month": "2022-05",
-        "value": 149.1736
-      },
-      {
-        "month": "2022-06",
-        "value": 140.4678
-      },
-      {
-        "month": "2022-07",
-        "value": 134.1021
-      },
-      {
-        "month": "2022-08",
-        "value": 140.73
-      },
-      {
-        "month": "2022-09",
-        "value": 132.4641
-      },
-      {
-        "month": "2022-10",
-        "value": 126.5808
-      },
-      {
-        "month": "2022-11",
-        "value": 137.2106
-      },
-      {
-        "month": "2022-12",
-        "value": 134.0164
-      },
-      {
-        "month": "2023-01",
-        "value": 134.0777
-      },
-      {
-        "month": "2023-02",
-        "value": 139.071
-      },
-      {
-        "month": "2023-03",
-        "value": 137.2106
-      },
-      {
-        "month": "2023-04",
-        "value": 143.2114
-      },
-      {
-        "month": "2023-05",
-        "value": 143.2761
-      },
-      {
-        "month": "2023-06",
-        "value": 147.5032
-      },
-      {
-        "month": "2023-07",
-        "value": 147.2467
-      },
-      {
-        "month": "2023-08",
-        "value": 145.4112
-      },
-      {
         "month": "2023-09",
-        "value": 144.3766
+        "value": 126.1101
       },
       {
         "month": "2023-10",
-        "value": 135.7678
+        "value": 119.3082
       },
       {
         "month": "2023-11",
-        "value": 139.5597
+        "value": 122.2631
       },
       {
         "month": "2023-12",
-        "value": 144.9339
+        "value": 127.3208
       },
       {
         "month": "2024-01",
-        "value": 142.9446
+        "value": 125.5239
       },
       {
         "month": "2024-02",
-        "value": 149.2916
+        "value": 130.7407
       },
       {
         "month": "2024-03",
-        "value": 153.2174
+        "value": 134.0924
       },
       {
         "month": "2024-04",
-        "value": 151.7792
+        "value": 133.0378
       },
       {
         "month": "2024-05",
-        "value": 153.8338
+        "value": 134.698
       },
       {
         "month": "2024-06",
-        "value": 155.974
+        "value": 136.4975
       },
       {
         "month": "2024-07",
-        "value": 159.4379
+        "value": 139.6777
       },
       {
         "month": "2024-08",
-        "value": 150.2888
+        "value": 131.6546
       },
       {
         "month": "2024-09",
-        "value": 147.203
+        "value": 128.8299
       },
       {
         "month": "2024-10",
-        "value": 147.3443
+        "value": 128.9984
       },
       {
         "month": "2024-11",
-        "value": 142.1273
+        "value": 124.5125
       },
       {
         "month": "2024-12",
-        "value": 138.6908
+        "value": 121.395
       },
       {
         "month": "2025-01",
-        "value": 142.1103
+        "value": 124.5563
       },
       {
         "month": "2025-02",
-        "value": 146.359
+        "value": 128.2198
       },
       {
         "month": "2025-03",
-        "value": 146.7688
+        "value": 128.453
       },
       {
         "month": "2025-04",
-        "value": 140.3106
+        "value": 122.921
       },
       {
         "month": "2025-05",
-        "value": 148.7048
+        "value": 129.8586
+      },
+      {
+        "month": "2025-06",
+        "value": 145.7188
+      },
+      {
+        "month": "2025-07",
+        "value": 157.5476
+      },
+      {
+        "month": "2025-08",
+        "value": 158.4023
+      },
+      {
+        "month": "2025-09",
+        "value": 166.6949
+      },
+      {
+        "month": "2025-10",
+        "value": 186.5662
+      },
+      {
+        "month": "2025-11",
+        "value": 199.5063
+      },
+      {
+        "month": "2025-12",
+        "value": 203.5815
+      },
+      {
+        "month": "2026-01",
+        "value": 237.6905
+      },
+      {
+        "month": "2026-02",
+        "value": 276.7081
+      },
+      {
+        "month": "2026-03",
+        "value": 276.3034
+      },
+      {
+        "month": "2026-04",
+        "value": 301.3875
+      },
+      {
+        "month": "2026-05",
+        "value": 379.009
+      },
+      {
+        "month": "2026-06",
+        "value": 421.8348
+      },
+      {
+        "month": "2026-07",
+        "value": 347.6898
+      },
+      {
+        "month": "2026-08",
+        "value": 330.6228
+      },
+      {
+        "month": "2026-09",
+        "value": 341.5358
       }
     ],
     "source": {
-      "institution": "IMF",
-      "title": "IFS: 한국 주가지수(Equities index), 월별 (FPE_IX)",
-      "date": "2025-08-26",
-      "url": "https://api.db.nomics.world/v22/series/IMF/IFS/M.KR.FPE_IX?observations=1",
-      "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+      "institution": "OECD (FRED 경유)",
+      "title": "한국 주가지수, 2015=100, 월별 (SPASTT01KRM661N)",
+      "date": "2026-10-22",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SPASTT01KRM661N",
+      "via": "FRED 직접 조회 (조회일 2026-10-22)"
     }
   }
 };
