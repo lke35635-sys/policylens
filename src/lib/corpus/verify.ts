@@ -268,4 +268,10 @@ function verifyChannel(c: Channel, planWhere: string, policy: Policy | undefined
   if (c.assessment && c.assessment.unclear !== c.assessment.change <= c.assessment.stdev) {
     problems.push(`${where}: 판정(unclear)이 변화와 표준편차의 비교와 다릅니다`);
   }
+  if (c.assessment) {
+    if (!c.chart) problems.push(`${where}: 그래프가 없는 경로에는 판정을 두지 않습니다`);
+    else if (c.chart.seriesIds[c.chart.seriesIds.length - 1] !== c.assessment.seriesId) {
+      problems.push(`${where}: 판정 지표(${c.assessment.seriesId})는 그래프 지표 중 마지막(${c.chart.seriesIds[c.chart.seriesIds.length - 1]})이어야 합니다`);
+    }
+  }
 }

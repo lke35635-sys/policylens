@@ -85,6 +85,7 @@ export const stepSchema = z.object({
 });
 
 export const assessmentSchema = z.object({
+  seriesId: NONEMPTY, // 판정에 쓴 지표 (그래프에 올린 지표 중 마지막 = 정책에서 가장 멀리 있는 결과 쪽 지표)
   unclear: z.boolean(), // true면 "뚜렷한 연관이 보이지 않았다"
   change: z.number().nonnegative(), // 시행 직전·직후 12개월 평균 차이의 절댓값
   stdev: z.number().nonnegative(), // 시행일 이전 10년(가능한 기간) 월별 값의 표준편차

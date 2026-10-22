@@ -249,7 +249,7 @@ interface Channel {
   assessment?: Assessment;         // 개발 단계에 계산해 저장한 "뚜렷한 연관 없음" 판정
 }
 interface Step { id: string; label: string; explanation: string; source: Source; seriesId?: string } // 설명의 출처(source)는 필수. seriesId(연결 통계)가 없으면 그 단계는 "연결 통계 없음"으로 표시
-interface Assessment { unclear: boolean; change: number; stdev: number; stdevPeriod: string; computedAt: string } // 변화=직전·직후 12개월 평균 차이의 절댓값, stdev=시행일 이전 10년(가능한 기간) 월별 값의 표준편차
+interface Assessment { seriesId: string; unclear: boolean; change: number; stdev: number; stdevPeriod: string; computedAt: string } // 변화=직전·직후 12개월 평균 차이의 절댓값, stdev=시행일 이전 10년(가능한 기간) 월별 값의 표준편차
 interface Narrative { sentences: string[]; sources: Source[] }   // 문장 80자 이내, 문단마다 출처
 
 interface Series {                 // 개발 단계에 내려받아 고정한 통계

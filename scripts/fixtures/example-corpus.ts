@@ -95,7 +95,7 @@ export const EXAMPLE_CORPUS: Corpus = {
       foreignPolicyId: "ex-foreign",
       summary: narrative(3),
       channels: [
-        { id: "c1", name: "시험 경로 1", narrative: narrative(3), steps: [step("a", "s1"), step("b", "s2"), step("c")], chart: { seriesIds: ["s1", "s2"] }, assessment: { unclear: true, change: 0.5, stdev: 1.0, stdevPeriod: "2012-03 ~ 2022-02", computedAt: "2026-10-22" } },
+        { id: "c1", name: "시험 경로 1", narrative: narrative(3), steps: [step("a", "s1"), step("b", "s2"), step("c")], chart: { seriesIds: ["s1", "s2"] }, assessment: { seriesId: "s2", unclear: true, change: 0.5, stdev: 1.0, stdevPeriod: "2012-03 ~ 2022-02", computedAt: "2026-10-22" } },
         { id: "c2", name: "시험 경로 2", narrative: narrative(4), steps: [step("d", "s2"), step("e", "s3"), step("f", "s1")], chart: { seriesIds: ["s2", "s3", "s1"] } },
         { id: "c3", name: "시험 경로 3", narrative: narrative(6), steps: [step("g", "s3"), step("h")] },
       ],

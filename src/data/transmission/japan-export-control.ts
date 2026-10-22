@@ -264,7 +264,7 @@ export const TX_JAPAN_EXPORT_CONTROL: TransmissionPlan = {
             "checkedAt": "2026-10-23",
             "evidence": "블랭크마스크는 對일본 수입 상위 20대 핵심 소부장 품목에 해당됨"
           },
-          "seriesId": "XTIMVA01KRM667S"
+          "seriesId": "XTEXVA01JPM664S"
         },
         {
           "id": "japan-export-control-c3-s2",
@@ -279,7 +279,7 @@ export const TX_JAPAN_EXPORT_CONTROL: TransmissionPlan = {
             "checkedAt": "2026-10-23",
             "evidence": "20대 품목은 ‘21년 공급안정성 확보 목표로 국내생산 확대, 기술개발(’19년 추경 650억원, ‘20년 1,165억원), 수입국 다변화 등을 계획대로 추진중에 있으며,"
           },
-          "seriesId": "XTEXVA01JPM664S"
+          "seriesId": "XTIMVA01KRM667S"
         },
         {
           "id": "japan-export-control-c3-s3",
@@ -298,8 +298,8 @@ export const TX_JAPAN_EXPORT_CONTROL: TransmissionPlan = {
       ],
       "chart": {
         "seriesIds": [
-          "XTIMVA01KRM667S",
-          "XTEXVA01JPM664S"
+          "XTEXVA01JPM664S",
+          "XTIMVA01KRM667S"
         ]
       }
     },

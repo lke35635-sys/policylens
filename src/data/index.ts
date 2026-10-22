@@ -8,11 +8,18 @@ import { MONETARY_POLICIES } from "./policies/monetary";
 import { REALESTATE_POLICIES } from "./policies/realestate";
 import { TRADE_POLICIES } from "./policies/trade";
 import { SERIES } from "./series/index";
+import { ASSESSMENTS } from "./transmission/assessments";
 import { TRANSMISSION } from "./transmission/index";
+
+// 경로별 "뚜렷한 연관 없음" 판정 값(scripts/build-assessment.mjs가 계산해 저장)을 경로에 붙인다
+const TRANSMISSION_WITH_ASSESSMENT = TRANSMISSION.map((plan) => ({
+  ...plan,
+  channels: plan.channels.map((c) => (ASSESSMENTS[c.id] ? { ...c, assessment: ASSESSMENTS[c.id] } : c)),
+}));
 
 export const CORPUS: Corpus = {
   policies: [...MONETARY_POLICIES, ...TRADE_POLICIES, ...FISCAL_POLICIES, ...REALESTATE_POLICIES],
   governments: GOVERNMENTS,
-  transmission: TRANSMISSION,
+  transmission: TRANSMISSION_WITH_ASSESSMENT,
   series: SERIES,
 };
