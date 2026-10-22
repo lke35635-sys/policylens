@@ -10,8 +10,11 @@ import { EXAMPLE_CORPUS } from "./fixtures/example-corpus.ts";
 const offlineTest = process.argv.includes("--offline-test");
 
 // 실제로 주소를 여는 함수: 15초 안에 응답이 없으면 실패로 본다. 일부 사이트는 HEAD를 막아서 GET으로 연다.
+// 일본 경제산업성(meti.go.jp)은 프로그램 접속을 막아(HTTP 403) 서버로는 열 수 없다. 이 사이트의 주소는 사람이 브라우저로 직접 열어 확인하고, 여기서는 403만 통과로 본다 (404 등은 그대로 실패).
+const BROWSER_ONLY_HOSTS = ["www.meti.go.jp"];
 async function realFetch(url) {
   const res = await fetch(url, { method: "GET", redirect: "follow", signal: AbortSignal.timeout(15000), headers: { "user-agent": "PolicyLens-link-check" } });
+  if (res.status === 403 && BROWSER_ONLY_HOSTS.includes(new URL(url).hostname)) return { ok: true, status: res.status };
   return { ok: res.ok, status: res.status };
 }
 
