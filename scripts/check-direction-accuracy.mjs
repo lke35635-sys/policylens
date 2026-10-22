@@ -2,9 +2,9 @@
 // 실행: node --no-warnings --import ./scripts/register-ts.mjs scripts/check-direction-accuracy.mjs
 //
 // 판정 방법 (PRD 3번)
-// - 사례 10건 × 변수 5개 = 50칸 가운데, 아래 칸은 비교에서 뺀다.
+// - 사례 N건 × 변수 5개 칸 가운데, 아래 칸은 비교에서 뺀다 (PRD는 10건 이상을 요구하고, 지금은 19건이다).
 //   · 계수 표에 근거가 없는 칸 ("근거 자료 없음": 숫자를 내지 않으므로 방향도 없음)
-//   · 실제 변화 값이 없는 칸 (검증 자료에 GDP·소비자물가 변화만 있음)
+//   · 실제 변화 값이 없는 칸 (검증 자료에 GDP·소비자물가·원/달러 환율 변화만 있음)
 //   · 실제 변화가 0.05%p 미만이라 방향을 말할 수 없는 칸
 // - 예측 방향 = 중간 시나리오 범위의 가운데 값의 부호, 실제 방향 = 그해 전년 대비 변화의 부호
 // - 목표: 비교한 칸 중 80% 이상 일치
@@ -59,7 +59,7 @@ for (const c of VALIDATION_CASES) {
     byVariable[variable] ??= { total: 0, matched: 0 };
     byVariable[variable].total += 1;
     if (match) byVariable[variable].matched += 1;
-    rows.push({ id: c.id, variable, predicted, actual, observed: observed.value, match, note: observed.note });
+    rows.push({ id: c.id, type: c.type, variable, predicted, actual, observed: observed.value, match, note: observed.note });
   }
 }
 
@@ -86,6 +86,26 @@ for (const [variable, s] of Object.entries(byVariable)) {
 const byType = {};
 for (const c of VALIDATION_CASES) byType[c.type] = (byType[c.type] ?? 0) + 1;
 console.log(`  사례 유형: ${Object.entries(byType).map(([t, n]) => `${ISSUE_TYPE_LABEL[t]} ${n}건`).join(", ")}`);
+
+const tallyByType = {};
+for (const r of rows) {
+  const t = (tallyByType[r.type] ??= { total: 0, matched: 0 });
+  t.total += 1;
+  if (r.match) t.matched += 1;
+}
+console.log("  유형별 일치:");
+for (const [type, s] of Object.entries(tallyByType)) {
+  console.log(`    ${ISSUE_TYPE_LABEL[type]}: ${s.matched}/${s.total} (${Math.round((s.matched / s.total) * 100)}%)`);
+}
+
+// 처음 만든 사례(유가·환율 10건)만 따로 본다: 계수 표를 보강하기 전과 같은 사례로 비교하기 위해서
+const firstRows = rows.filter((r) => r.type === "oil" || r.type === "fx");
+const firstMatched = firstRows.filter((r) => r.match).length;
+console.log(`  처음 사례(유가·환율)만: ${firstMatched}/${firstRows.length} (${Math.round((firstMatched / Math.max(1, firstRows.length)) * 100)}%)`);
+
+// 같은 해가 여러 유형 사례에 쓰이면 같은 관측값을 다시 센 것이라 서로 독립적인 표본이 아니다.
+const years = new Set(VALIDATION_CASES.map((c) => c.year));
+console.log(`  사례 연도 ${years.size}개 (사례 ${VALIDATION_CASES.length}건 중 같은 해가 여러 번 쓰임. 비교한 칸이 서로 독립적이지는 않음)`);
 
 const needed = Math.ceil(TARGET * compared);
 console.log(`\n방향 일치율: ${matched}/${compared} = ${(rate * 100).toFixed(1)}%  (목표 ${TARGET * 100}% 이상 = ${compared}칸 중 ${needed}칸 이상 일치)`);

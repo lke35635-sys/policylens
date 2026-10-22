@@ -54,10 +54,10 @@ const OIL_UNIT = "% 국제 유가 상승";
 
 console.log("1) 기본 계산 (실제 표)");
 const oil20 = calculateStressTest({ type: "oil", shock: { value: 20, unit: OIL_UNIT } }, realTables);
-check("유가 +20%: GDP는 작음 -0.4~-0.1, 중간 -0.8~-0.2, 큼 -1.2~-0.3", () => {
-  expectRange(oil20.scenarios.small.gdp, -0.4, -0.1, "작음");
-  expectRange(oil20.scenarios.medium.gdp, -0.8, -0.2, "중간");
-  expectRange(oil20.scenarios.large.gdp, -1.2, -0.3, "큼");
+check("유가 +20%: GDP는 작음 -0.21~-0.1, 중간 -0.42~-0.2, 큼 -0.63~-0.3", () => {
+  expectRange(oil20.scenarios.small.gdp, -0.21, -0.1, "작음");
+  expectRange(oil20.scenarios.medium.gdp, -0.42, -0.2, "중간");
+  expectRange(oil20.scenarios.large.gdp, -0.63, -0.3, "큼");
 });
 check("유가 +20%: 소비자물가는 작음 0.11~0.2, 중간 0.22~0.4, 큼 0.33~0.6", () => {
   expectRange(oil20.scenarios.small.cpi, 0.11, 0.2, "작음");
@@ -82,10 +82,10 @@ check("검증 통과", () => expect(oil20.verification.passed, oil20.verificatio
 check("충격 출처는 기사(article)", () => expect(oil20.shock?.source === "article", `source: ${oil20.shock?.source}`));
 
 const fx10 = calculateStressTest({ type: "fx", shock: { value: 10, unit: "% 원/달러 환율 상승" } }, realTables);
-check("환율 +10%: 소비자물가 작음 0.175~0.235, 중간 0.35~0.47, 큼 0.525~0.705", () => {
-  expectRange(fx10.scenarios.small.cpi, 0.175, 0.235, "작음");
-  expectRange(fx10.scenarios.medium.cpi, 0.35, 0.47, "중간");
-  expectRange(fx10.scenarios.large.cpi, 0.525, 0.705, "큼");
+check("환율 +10%: 소비자물가 작음 0.15~0.25, 중간 0.3~0.5, 큼 0.45~0.75", () => {
+  expectRange(fx10.scenarios.small.cpi, 0.15, 0.25, "작음");
+  expectRange(fx10.scenarios.medium.cpi, 0.3, 0.5, "중간");
+  expectRange(fx10.scenarios.large.cpi, 0.45, 0.75, "큼");
 });
 
 const export30 = calculateStressTest({ type: "exportControl", shock: { value: 30, unit: "% 반도체 소재 공급 부족" } }, realTables);
@@ -101,7 +101,7 @@ const oilHistory = calculateStressTest({ type: "oil", shock: null }, realTables)
 check("기사에 충격 수치가 없으면 과거 사례 값(유가 10%)을 쓰고 '과거 사례 기준'으로 표시한다", () => {
   expect(oilHistory.shock?.source === "history" && oilHistory.shock.value === 10, `shock: ${JSON.stringify(oilHistory.shock)}`);
   expect(oilHistory.shock.historyRefs?.length > 0 && oilHistory.shock.historyRefs[0].year === 2026, "historyRefs가 없거나 연도가 다름");
-  expectRange(oilHistory.scenarios.medium.gdp, -0.4, -0.1, "중간");
+  expectRange(oilHistory.scenarios.medium.gdp, -0.21, -0.1, "중간");
 });
 const noBasis = calculateStressTest({ type: "commoditySupply", shock: null }, realTables);
 check("과거 사례도 없는 유형은 계산하지 않는다 (shock null, 모든 칸 null, 검증은 통과)", () => {
@@ -110,9 +110,12 @@ check("과거 사례도 없는 유형은 계산하지 않는다 (shock null, 모
   for (const key of SCENARIO_KEYS) for (const v of VARIABLE_KEYS) expect(noBasis.scenarios[key][v] === null, `${key}/${v}가 null이 아님`);
   expect(noBasis.verification.passed, noBasis.verification.problems.join("; "));
 });
-check("출처가 하나도 없는 유형(기준금리)은 충격이 있어도 모든 칸이 null이다", () => {
-  const r = calculateStressTest({ type: "policyRate", shock: { value: 75, unit: "bp 연준 기준금리 인상폭" } }, realTables);
-  expect(r.missing.length === VARIABLE_KEYS.length && r.basis.length === 0, "근거 없는 칸에 값이 나옴");
+check("기준금리 유형: 근거가 있는 GDP·환율만 값이 나오고 소비자물가·기준금리·코스피는 null이다 (연준 +200bp)", () => {
+  const r = calculateStressTest({ type: "policyRate", shock: { value: 200, unit: "bp 연준 기준금리 인상폭" } }, realTables);
+  expectRange(r.scenarios.medium.gdp, -0.7, -0.7, "GDP 중간");
+  expectRange(r.scenarios.medium.fx, 16, 16, "환율 중간");
+  expect(r.missing.join(",") === "cpi,policyRate,kospi", `missing: ${r.missing}`);
+  expect(r.verification.passed, r.verification.problems.join("; "));
 });
 
 console.log("\n3) 잘못된 입력은 계산하지 않고 오류를 낸다");
@@ -124,16 +127,23 @@ check("충격이 숫자가 아니면(NaN) 오류", () =>
   expectThrows(() => calculateStressTest({ type: "oil", shock: { value: Number.NaN, unit: OIL_UNIT } }, realTables), "NaN"));
 
 console.log("\n4) 충격이 음수일 때 (유가 하락)");
-check("유가 -10%: GDP 영향의 부호가 뒤집혀 중간 0.1~0.4가 되고 min ≤ max를 지킨다", () => {
+check("유가 -10%: GDP 영향의 부호가 뒤집혀 중간 0.1~0.21이 되고 min ≤ max를 지킨다", () => {
   const r = calculateStressTest({ type: "oil", shock: { value: -10, unit: OIL_UNIT } }, realTables);
-  expectRange(r.scenarios.medium.gdp, 0.1, 0.4, "중간");
+  expectRange(r.scenarios.medium.gdp, 0.1, 0.21, "중간");
   expect(r.verification.passed, r.verification.problems.join("; "));
 });
 
 console.log("\n5) 영향 크기 순서 (작음 ≤ 중간 ≤ 큼): 여러 충격 크기로 반복");
 check("6개 유형 × 충격 크기 9가지에서 순서가 항상 지켜지고 검증이 통과한다", () => {
   const sizes = [0.1, 1, 3, 5, 10, 20, 37.5, -3, -10];
-  const units = { oil: OIL_UNIT, fx: "% 원/달러 환율 상승", exportControl: "% 반도체 소재 공급 부족" };
+  const units = {
+    oil: OIL_UNIT,
+    fx: "% 원/달러 환율 상승",
+    exportControl: "% 반도체 소재 공급 부족",
+    policyRate: "bp 연준 기준금리 인상폭",
+    commoditySupply: "% 국제 원자재 가격 상승",
+    globalSlowdown: "%p 세계 경제성장률 하락",
+  };
   let count = 0;
   for (const type of ISSUE_TYPES) {
     for (const size of sizes) {
