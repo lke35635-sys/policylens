@@ -16,8 +16,9 @@ function toText(html) {
 }
 
 // 연방관보(federalregister.gov) 문서 페이지는 프로그램 접속을 막으므로, 같은 문서의 공식 본문 텍스트 주소로 바꿔 연다.
-// 일본 경제산업성(meti.go.jp)은 프로그램 접속 자체를 막아(HTTP 403) 서버로 대조할 수 없다. 이 사이트의 근거 문장은 브라우저로 직접 열어 확인하고 여기서는 따로 센다.
-const BROWSER_ONLY_HOSTS = ["www.meti.go.jp"];
+// 일본 경제산업성(meti.go.jp)은 프로그램 접속 자체를 막아(HTTP 403) 서버로 대조할 수 없다. 국가법령정보센터(law.go.kr)와 국회 의안정보시스템(likms.assembly.go.kr)은 본문 글자를 브라우저에서 만들어 보여 주므로 서버로 받은 HTML에 글자가 없다.
+// 이 사이트들의 근거 문장은 브라우저로 직접 열어 확인하고 여기서는 따로 센다.
+const BROWSER_ONLY_HOSTS = ["www.meti.go.jp", "www.law.go.kr", "likms.assembly.go.kr"];
 function fetchUrl(url) {
   const m = url.match(/^https:\/\/www\.federalregister\.gov\/documents\/(\d{4}\/\d{2}\/\d{2})\/([^/]+)\//);
   return m ? `https://www.federalregister.gov/documents/full_text/text/${m[1]}/${m[2]}.txt` : url;
