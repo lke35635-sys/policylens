@@ -60,7 +60,8 @@
 > **진행 현황** (2026-10-22 기준)
 > - 완료: 주제 변경(MacroLens → PolicyLens), PRD 여덟 항목 확정, PLAN·CLAUDE.md 작성. 옛 작업은 git 태그 `legacy-macrolens`와 `trash-can/legacy-macrolens-docs/`에 있다.
 > - 완료: 1번(옛 코드 정리, 빈 첫 화면), 2번(자료집 데이터 모양과 검사 도구: `lib/corpus/schema·types·verify·links`, `check-corpus.mjs`, `check-links.mjs`, 시험용 가짜 자료 `scripts/fixtures/`).
-> - 다음: 3번(정부 표와 기조 인용).
+> - 완료: 3번(정부 표 7개: 김대중~이재명, `src/data/governments.ts`). 기조 인용은 이용 조건(공공누리)이 확인된 3개 정부(김대중·윤석열·이재명)에만 넣었고, 나머지 4개 정부(노무현·이명박·박근혜·문재인)는 공공누리 표시가 붙은 공식 자료를 찾지 못해 출처 링크만 두었다. 인용 대조 스크립트 `check-quotes.mjs`.
+> - 다음: 4번(통화정책 연혁 조사).
 
 ### A. 준비와 자료 틀
 1. 옛 스트레스 테스트 코드를 `trash-can/`으로 옮기고, 새 주제에서 쓸 것만 남겨 빌드가 통과하는 빈 첫 화면을 만든다.
