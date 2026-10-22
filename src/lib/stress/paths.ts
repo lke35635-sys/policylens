@@ -47,10 +47,14 @@ function relativeTo(variable: VariableKey, value: number, base: number): number 
   return variable === "fx" || variable === "kospi" ? (value / base - 1) * 100 : value - base;
 }
 
+// 그래프에 그리는 과거 구간의 길이(개월). 저장된 통계는 더 길지만, 짧게 그려야 충격 이후 구간이 잘 보인다.
+export const DEFAULT_PAST_MONTHS = 12;
+
 export function buildScenarioPaths(
   result: StressResult,
   scenario: ScenarioKey,
   observed: Record<VariableKey, ObservedSeries>,
+  pastMonths: number = DEFAULT_PAST_MONTHS,
 ): ScenarioPath[] {
   const paths: ScenarioPath[] = [];
 
@@ -58,8 +62,9 @@ export function buildScenarioPaths(
     const cell = result.scenarios[scenario][variable];
     if (cell === null) continue; // 근거 자료 없음: 그리지 않는다
 
-    const points = observed[variable].points;
-    const base = points[points.length - 1].value;
+    const all = observed[variable].points;
+    const base = all[all.length - 1].value; // 충격 시점(기준 월)의 값. 그릴 구간을 줄여도 기준은 같다.
+    const points = all.slice(-(pastMonths + 1));
     const past: PastPoint[] = points.map((p, i) => ({
       month: i - (points.length - 1),
       value: relativeTo(variable, p.value, base),
@@ -80,6 +85,16 @@ export function buildScenarioPaths(
   }
 
   return paths;
+}
+
+// 축 범위를 정할 때 쓰는 값들을 모은다. includePast가 false면 충격 이후 값만 모아서, 충격 이후를 확대한 그래프의 축을 정한다.
+export function chartValues(paths: ScenarioPath[], axis: ChartAxis, includePast: boolean): number[] {
+  return paths
+    .filter((p) => p.axis === axis)
+    .flatMap((p) => [
+      ...(includePast ? p.past.map((q) => q.value) : []),
+      ...p.future.flatMap((q) => [q.mid, q.min, q.max]),
+    ]);
 }
 
 // 기준 월("2025-05")에서 offset개월 뒤의 달 이름 ("2026-05")

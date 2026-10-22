@@ -4,7 +4,7 @@
 import { alignedDomains, AXIS_UNIT, niceStep } from "../src/lib/stress/axis.ts";
 import { calculateStressTest } from "../src/lib/stress/calculate.ts";
 import { OBSERVED_META, OBSERVED_SERIES } from "../src/lib/stress/observed-series.ts";
-import { buildScenarioPaths, monthLabel } from "../src/lib/stress/paths.ts";
+import { buildScenarioPaths, chartValues, DEFAULT_PAST_MONTHS, monthLabel } from "../src/lib/stress/paths.ts";
 import { getSampleIssues } from "../src/lib/stress/sample.ts";
 import { ISSUE_TYPES, SCENARIO_KEYS, VARIABLE_KEYS } from "../src/lib/stress/types.ts";
 
@@ -56,15 +56,26 @@ check("GDP 성장률은 분기 자료라서 같은 분기의 세 달은 값이 �
 console.log("\n2) 시나리오 경로 (실제 표, 유가 +20% 샘플)");
 const oil = getSampleIssues()[0].result;
 const paths = Object.fromEntries(SCENARIO_KEYS.map((k) => [k, buildScenarioPaths(oil, k, OBSERVED_SERIES)]));
+const pathsFull = Object.fromEntries(SCENARIO_KEYS.map((k) => [k, buildScenarioPaths(oil, k, OBSERVED_SERIES, 36)]));
 check("근거가 있는 변수(GDP, 소비자물가)만 그리고 근거 없는 변수는 그리지 않는다", () => {
   for (const k of SCENARIO_KEYS) expect(paths[k].map((p) => p.variable).join(",") === "gdp,cpi", `${k}: ${paths[k].map((p) => p.variable)}`);
 });
-check("과거는 충격 시점(0개월)의 값이 0이 되도록 맞춘 변화량이다 (물가: 전년 동월 상승률의 %p 차이)", () => {
-  const cpi = paths.medium[1];
+check("과거는 충격 시점(0개월)의 값이 0이 되도록 맞춘 변화량이다 (물가: 전년 동월 상승률의 %p 차이, 저장된 36개월 전체)", () => {
+  const cpi = pathsFull.medium[1];
   const raw = OBSERVED_SERIES.cpi.points;
   expect(cpi.past.length === 37 && cpi.past[0].month === -36 && cpi.past.at(-1).month === 0, "개월 범위");
   expect(near(cpi.past.at(-1).value, 0), `0개월 값 ${cpi.past.at(-1).value}`);
   expect(near(cpi.past[0].value, raw[0].value - raw.at(-1).value), "-36개월 값");
+});
+check(`그리는 과거 구간은 기본 ${DEFAULT_PAST_MONTHS}개월이고, 줄여도 기준(충격 시점의 값)은 같다`, () => {
+  expect(DEFAULT_PAST_MONTHS >= 12 && DEFAULT_PAST_MONTHS <= 18, `기본값 ${DEFAULT_PAST_MONTHS}`);
+  const cpi = paths.medium[1];
+  const raw = OBSERVED_SERIES.cpi.points;
+  expect(cpi.past.length === DEFAULT_PAST_MONTHS + 1, `점 개수 ${cpi.past.length}`);
+  expect(cpi.past[0].month === -DEFAULT_PAST_MONTHS && cpi.past.at(-1).month === 0, "개월 범위");
+  expect(near(cpi.past[0].value, raw.at(-1 - DEFAULT_PAST_MONTHS).value - raw.at(-1).value), "시작 값이 36개월 전체일 때와 같은 기준");
+  const fullSameMonth = pathsFull.medium[1].past.find((q) => q.month === -DEFAULT_PAST_MONTHS);
+  expect(near(cpi.past[0].value, fullSameMonth.value), "같은 달의 값이 구간을 줄여도 같음");
 });
 check("충격 이후는 0개월에서 시작해 12개월에 표의 값에 도달한다 (GDP 중간: 가운데 -0.31, 범위 -0.42~-0.2)", () => {
   const f = paths.medium[0].future;
@@ -83,6 +94,28 @@ check("세 시나리오의 과거 구간은 같다 (충격 크기와 무관한 �
 check("근거 없는 칸만 있는 결과(충격 크기를 모르는 경우)는 경로가 하나도 없다", () => {
   const none = getSampleIssues()[2].result;
   for (const k of SCENARIO_KEYS) expect(buildScenarioPaths(none, k, OBSERVED_SERIES).length === 0, `${k}`);
+});
+
+console.log("\n2-2) 충격 이후 확대 그래프와 공통 눈금");
+const allOil = SCENARIO_KEYS.flatMap((k) => paths[k]);
+check("확대 그래프의 값은 충격 이후 값만 모은 것이다 (과거 값은 들어가지 않음)", () => {
+  const withPast = chartValues(allOil, "left", true);
+  const futureOnly = chartValues(allOil, "left", false);
+  expect(futureOnly.length < withPast.length, "충격 이후만이 더 적어야 함");
+  const maxFuture = Math.max(...futureOnly.map(Math.abs));
+  expect(near(maxFuture, 0.63) || maxFuture < 0.7, `충격 이후 최대 절댓값 ${maxFuture}`);
+  expect(Math.max(...withPast.map(Math.abs)) > 1, "과거 값은 충격 이후보다 훨씬 커야 이 설계의 의미가 있음");
+});
+check("확대 그래프의 세로축은 전체 그래프보다 훨씬 좁고, 세 시나리오의 모든 값이 범위 안에 들어간다", () => {
+  const full = alignedDomains(chartValues(allOil, "left", true), []);
+  const zoom = alignedDomains(chartValues(allOil, "left", false), []);
+  expect(zoom.left.hi - zoom.left.lo < (full.left.hi - full.left.lo) / 2, `확대 ${zoom.left.hi - zoom.left.lo} vs 전체 ${full.left.hi - full.left.lo}`);
+  for (const v of chartValues(allOil, "left", false)) expect(v >= zoom.left.lo && v <= zoom.left.hi, `범위 밖: ${v}`);
+});
+check("작음·중간·큼의 끝점 가운데 값은 같은 눈금에서 크기 순서가 보인다 (GDP -0.155 → -0.31 → -0.465)", () => {
+  const ends = SCENARIO_KEYS.map((k) => paths[k][0].future.at(-1).mid);
+  expect(near(ends[0], -0.155) && near(ends[1], -0.31) && near(ends[2], -0.465), JSON.stringify(ends));
+  expect(Math.abs(ends[0]) < Math.abs(ends[1]) && Math.abs(ends[1]) < Math.abs(ends[2]), "크기 순서");
 });
 
 console.log("\n3) 단위 환산과 축 (시험용 표: 연준 +200bp)");
@@ -114,7 +147,7 @@ check("기준금리는 bp를 %p로 환산하고(100~140bp → 12개월 1~1.4%p) 
 check("환율·코스피는 오른쪽(%) 축이고 환율 과거는 % 변화율이다", () => {
   expect(fakePaths.fx.axis === "right" && fakePaths.kospi.axis === "right", "축");
   const raw = OBSERVED_SERIES.fx.points;
-  expect(near(fakePaths.fx.past[0].value, (raw[0].value / raw.at(-1).value - 1) * 100), "환율 변화율");
+  expect(near(fakePaths.fx.past[0].value, (raw.at(-1 - DEFAULT_PAST_MONTHS).value / raw.at(-1).value - 1) * 100), "환율 변화율");
   expect(AXIS_UNIT.left === "%p" && AXIS_UNIT.right === "%", "축 단위");
 });
 check("코스피는 표가 1개월 값이라 충격 후 1개월까지만 그린다 (0, 1개월 두 점, 1개월 가운데 -4)", () => {
