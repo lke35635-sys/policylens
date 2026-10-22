@@ -17,7 +17,7 @@ export default function Home() {
       <main className="flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-12 sm:py-16">
         {/* ① 머리말 */}
         <header className="flex flex-col gap-2">
-          <h1 className="text-5xl font-bold tracking-tight text-black dark:text-zinc-50">MacroLens</h1>
+          <h1 className="text-5xl font-bold tracking-tight text-black dark:text-zinc-50">PolicyLens</h1>
           <p className="break-keep text-lg text-zinc-600 dark:text-zinc-400">뉴스 한 편으로 보는 거시경제 스트레스 테스트</p>
         </header>
 
