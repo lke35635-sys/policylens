@@ -195,7 +195,8 @@
 
 ```typescript
 interface Source {                 // 모든 내용에 붙는 출처
-  institution: string;             // 기관명 (정부 부처·한국은행·국회·국제기구·해외 중앙은행·해외 정부 기관만 허용)
+  institution: string;             // 기관명 (예: 한국은행, IMF)
+  institutionType: "정부 부처" | "한국은행" | "국회" | "국제기구" | "해외 중앙은행" | "해외 정부 기관";  // 허용 기관 종류만 (국책연구원·언론은 불가)
   title: string;                   // 문서명 또는 통계명
   date: string;                    // 문서 날짜
   url: string;                     // https 원문 주소
@@ -317,7 +318,10 @@ src/
 │   └── series/               내려받아 고정한 통계 (스크립트가 만듦)
 └── lib/
     └── corpus/               ★ 순수 코드 (자료만 입력으로 받음)
-        ├── types.ts          위 5번의 자료 모양
+        ├── schema.ts         위 5번의 자료 모양을 Zod로 정의 (모양 검사)
+        ├── types.ts          schema.ts에서 만든 타입
+        ├── verify.ts         PRD 규칙 검사 (연혁 5건, 날짜 순서, 글자 수, 짝, 경로, 그래프 지표 등)
+        ├── links.ts          출처 주소 모으기·깨진 링크 찾기
         ├── search.ts         검색·일치도 계산
         ├── history.ts        시간순·정부별 묶기
         ├── graph.ts          그래프 값·"뚜렷한 연관 없음" 판정(표준편차)

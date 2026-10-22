@@ -59,7 +59,8 @@
 
 > **진행 현황** (2026-10-22 기준)
 > - 완료: 주제 변경(MacroLens → PolicyLens), PRD 여덟 항목 확정, PLAN·CLAUDE.md 작성. 옛 작업은 git 태그 `legacy-macrolens`와 `trash-can/legacy-macrolens-docs/`에 있다.
-> - 다음: 1번. 아래 목록에서 시작한 작업은 아직 없다.
+> - 완료: 1번(옛 코드 정리, 빈 첫 화면), 2번(자료집 데이터 모양과 검사 도구: `lib/corpus/schema·types·verify·links`, `check-corpus.mjs`, `check-links.mjs`, 시험용 가짜 자료 `scripts/fixtures/`).
+> - 다음: 3번(정부 표와 기조 인용).
 
 ### A. 준비와 자료 틀
 1. 옛 스트레스 테스트 코드를 `trash-can/`으로 옮기고, 새 주제에서 쓸 것만 남겨 빌드가 통과하는 빈 첫 화면을 만든다.
