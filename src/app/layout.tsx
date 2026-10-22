@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 // Design Ref: §3.1 ① 머리말 — 브라우저 탭 제목과 설명도 앱 이름을 따른다.
 export const metadata: Metadata = {
-  title: "MacroLens",
-  description: "뉴스 한 편으로 보는 거시경제 스트레스 테스트",
+  title: "PolicyLens",
+  description: "경제정책의 변천과 해외 정책이 국내 경제에 번지는 경로를 공식 자료로 살펴보는 교육용 앱",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
