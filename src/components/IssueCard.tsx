@@ -1,6 +1,7 @@
 // Design Ref: §3.1 ⑤ 결과 영역, §3.3 결과 카드 — 이슈 하나의 유형 배지, 요약, 충격 크기와 출처, 결과 표, 근거와 가정.
 // 결과 표 아래에 작음 / 중간 / 큼 시점별 그래프 3개(PLAN 6번)가 과거 실제와 충격 이후 경로를 보여 준다.
 import { BasisPanel } from "@/components/BasisPanel";
+import { CascadePanel } from "@/components/CascadePanel";
 import { ScenarioPathCharts } from "@/components/ScenarioPathCharts";
 import { ScenarioTable } from "@/components/ScenarioTable";
 import { formatShock, formatShockSource } from "@/lib/stress/format";
@@ -47,6 +48,7 @@ export function IssueCard({ index, title, summary, type, approximate, result }: 
           </p>
           <ScenarioTable result={result} />
           <ScenarioPathCharts id={`path-${index}`} result={result} />
+          <CascadePanel result={result} />
           <BasisPanel result={result} />
         </>
       )}

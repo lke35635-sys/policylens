@@ -186,3 +186,24 @@ export interface HistoricalCase {
   sources: Source[];
   note?: string;
 }
+
+// 변수 사이의 과거 연쇄 관계 하나 (scripts/fetch-linkages.mjs가 공개 통계에서 계산)
+// slope: 원인 변수가 1 움직일 때 결과 변수가 같은 12개월 동안 함께 움직인 크기 (변수 단위 그대로: %p 또는 %)
+export interface Linkage {
+  cause: VariableKey;
+  effect: VariableKey;
+  slope: number;
+  low: number; // 기울기 − 표준오차 1개
+  high: number; // 기울기 + 표준오차 1개
+  r: number; // 상관계수
+  nEff: number; // 독립 표본 수(표본 수 ÷ 12)
+}
+
+export interface LinkageMeta {
+  generatedAt: string;
+  period: string;
+  months: number;
+  minAbsR: number;
+  method: string;
+  caveat: string;
+}
