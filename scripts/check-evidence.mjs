@@ -1,6 +1,6 @@
 // 자료집의 근거 문장(evidence)이 출처 페이지에 지금도 그대로 있는지 다시 확인한다 (PLAN 4번, PRD "출처 100%·직접 열어 확인").
 // 실행: node --no-warnings --import ./scripts/register-ts.mjs scripts/check-evidence.mjs   (인터넷 연결 필요)
-// 정책 연혁 항목의 출처(source.evidence)를 출처 주소의 페이지 글자와 대조한다. 어긋나거나 페이지를 못 열면 종료 코드 1로 끝난다.
+// 정책 연혁 항목과 파급경로(요약·경로 해설·단계)의 출처(source.evidence)를 출처 주소의 페이지 글자와 대조한다. 어긋나거나 페이지를 못 열면 종료 코드 1로 끝난다.
 // 태그 사이에 끼는 공백과 줄바꿈 없는 공백(NBSP) 차이는 무시하고 글자만 비교한다. 페이지가 사이트 개편으로 바뀌면 여기서 걸린다.
 import { CORPUS } from "../src/data/index.ts";
 
@@ -41,25 +41,42 @@ let ok = 0;
 let nothing = 0;
 let browserOnly = 0;
 const problems = [];
-for (const p of CORPUS.policies) {
-  for (const h of p.history) {
-    for (const s of h.sources) {
-      if (!s.evidence) {
-        nothing += 1;
-        continue;
-      }
-      if (BROWSER_ONLY_HOSTS.includes(new URL(s.url).hostname)) {
-        browserOnly += 1;
-        continue;
-      }
-      const res = await page(s.url);
-      const where = `${p.id} ${h.date} ${s.url}`;
-      if (res.error) problems.push(`페이지를 열지 못함 (${res.error}): ${where}`);
-      else if (res.text.includes(flat(s.evidence))) ok += 1;
-      else problems.push(`근거 문장이 페이지에 없음: ${where}`);
-    }
+
+// 출처 하나를 확인한다
+async function checkSource(s, where) {
+  if (!s.evidence) {
+    nothing += 1;
+    return;
+  }
+  if (BROWSER_ONLY_HOSTS.includes(new URL(s.url).hostname)) {
+    browserOnly += 1;
+    return;
+  }
+  const res = await page(s.url);
+  const label = `${where} ${s.url}`;
+  if (res.error) problems.push(`페이지를 열지 못함 (${res.error}): ${label}`);
+  else if (res.text.includes(flat(s.evidence))) ok += 1;
+  else problems.push(`근거 문장이 페이지에 없음: ${label}`);
+}
+
+// 1) 정책 연혁의 출처
+for (const p of CORPUS.policies) for (const h of p.history) for (const s of h.sources) await checkSource(s, `${p.id} ${h.date}`);
+// 2) 파급경로의 출처: 요약·경로 해설·단계 설명 (같은 출처와 근거 문장은 한 번만 확인한다)
+for (const plan of CORPUS.transmission) {
+  const seen = new Set();
+  const once = async (s, where) => {
+    const key = `${s.url}|${s.evidence}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    await checkSource(s, where);
+  };
+  for (const s of plan.summary.sources) await once(s, `${plan.foreignPolicyId} 요약`);
+  for (const c of plan.channels) {
+    for (const s of c.narrative.sources) await once(s, `${plan.foreignPolicyId} ${c.name} 해설`);
+    for (const st of c.steps) await once(st.source, `${plan.foreignPolicyId} ${c.name} 단계 ${st.label}`);
   }
 }
+
 console.log(`근거 문장 확인 ${ok}개, 근거 문장이 없는 출처 ${nothing}개, 브라우저로만 확인 가능한 출처 ${browserOnly}개, 문제 ${problems.length}개`);
 for (const m of problems) console.log(`  - ${m}`);
 if (problems.length > 0) process.exitCode = 1;
