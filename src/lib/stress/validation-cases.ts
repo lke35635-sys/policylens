@@ -4,7 +4,7 @@ import type { ValidationCase } from "./types";
 
 export const VALIDATION_META = {
   "generatedAt": "2026-10-22",
-  "rule": "1991~2024년 중 자료가 있는 해에서, 유가 변동 폭이 큰 7개 연도, 원/달러 환율 변동 폭이 큰 3개 연도, 미국 프라임레이트(연준 기준금리 대용) 변화가 큰 3개 연도(충격 표 사례와 겹치는 2022년 제외), 세계 경제성장률 변동 폭이 큰 3개 연도, 전체 원자재 가격 변동 폭이 큰 3개 연도. 실제 변화는 그해 값에서 전년 값을 뺀 차이(GDP·물가 %p, 환율은 변동률 %)."
+  "rule": "1991~2025년 중 자료가 있는 해에서, 유가 변동 폭이 큰 7개 연도, 원/달러 환율 변동 폭이 큰 3개 연도, 미 연준 연방기금금리 변화가 큰 3개 연도(충격 표 사례와 겹치는 2022년 제외), 세계 경제성장률 변동 폭이 큰 3개 연도, 전체 원자재 가격 변동 폭이 큰 3개 연도. 실제 변화는 그해 값에서 전년 값을 뺀 차이(GDP·물가 %p, 환율은 변동률 %)."
 };
 
 export const VALIDATION_CASES: ValidationCase[] = [
@@ -36,31 +36,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: Dubai Crude 연평균 지수 (PCPS A.W00.POILDUB.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.POILDUB?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price of Dubai Crude, 월평균 (POILDUBUSDM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=POILDUBUSDM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -93,31 +93,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: Dubai Crude 연평균 지수 (PCPS A.W00.POILDUB.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.POILDUB?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price of Dubai Crude, 월평균 (POILDUBUSDM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=POILDUBUSDM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -150,31 +150,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: Dubai Crude 연평균 지수 (PCPS A.W00.POILDUB.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.POILDUB?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price of Dubai Crude, 월평균 (POILDUBUSDM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=POILDUBUSDM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -207,31 +207,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: Dubai Crude 연평균 지수 (PCPS A.W00.POILDUB.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.POILDUB?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price of Dubai Crude, 월평균 (POILDUBUSDM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=POILDUBUSDM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -264,31 +264,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: Dubai Crude 연평균 지수 (PCPS A.W00.POILDUB.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.POILDUB?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price of Dubai Crude, 월평균 (POILDUBUSDM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=POILDUBUSDM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -321,31 +321,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: Dubai Crude 연평균 지수 (PCPS A.W00.POILDUB.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.POILDUB?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price of Dubai Crude, 월평균 (POILDUBUSDM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=POILDUBUSDM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -378,31 +378,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: Dubai Crude 연평균 지수 (PCPS A.W00.POILDUB.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.POILDUB?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price of Dubai Crude, 월평균 (POILDUBUSDM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=POILDUBUSDM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -438,28 +438,28 @@ export const VALIDATION_CASES: ValidationCase[] = [
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -495,28 +495,28 @@ export const VALIDATION_CASES: ValidationCase[] = [
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -552,142 +552,85 @@ export const VALIDATION_CASES: ValidationCase[] = [
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
   },
   {
-    "id": "policyRate-2001",
+    "id": "policyRate-1991",
     "type": "policyRate",
-    "year": 2001,
-    "name": "2001년 미국 프라임레이트 9.23% → 6.92% (연평균, -231bp)",
+    "year": 1991,
+    "name": "1991년 미국 연방기금금리 8.1% → 5.69% (연평균, -241bp)",
     "shock": {
-      "value": -231.17,
+      "value": -241.17,
       "unit": "bp 연준 기준금리 인상폭"
     },
     "observed": {
       "gdp": {
-        "value": -4.48,
+        "value": 0.85,
         "unit": "%p",
-        "note": "2001년 4.7% − 2000년 9.2% (GDP 성장률)"
+        "note": "1991년 10.9% − 1990년 10% (GDP 성장률)"
       },
       "cpi": {
-        "value": 1.81,
+        "value": 0.76,
         "unit": "%p",
-        "note": "2001년 4.1% − 2000년 2.3% (소비자물가 상승률)"
+        "note": "1991년 9.3% − 1990년 8.6% (소비자물가 상승률)"
       },
       "fx": {
-        "value": 14.19,
+        "value": 3.61,
         "unit": "%",
-        "note": "2001년 1290.8원 / 2000년 1130.4원 (연평균 원/달러 환율 변동률)"
+        "note": "1991년 733.3원 / 1990년 707.8원 (연평균 원/달러 환율 변동률)"
       }
     },
     "sources": [
       {
-        "institution": "세계은행",
-        "title": "Lending interest rate (%), United States — 프라임레이트 (FR.INR.LEND). 연준 기준금리 대용",
-        "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/USA/indicator/FR.INR.LEND?format=json&per_page=200&date=1989:2024",
-        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
+        "institution": "미 연준(FRB) H.15 (FRED 경유)",
+        "title": "Federal Funds Effective Rate, 월평균 (FEDFUNDS)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
-        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
-      }
-    ]
-  },
-  {
-    "id": "policyRate-2002",
-    "type": "policyRate",
-    "year": 2002,
-    "name": "2002년 미국 프라임레이트 6.92% → 4.68% (연평균, -225bp)",
-    "shock": {
-      "value": -224.67,
-      "unit": "bp 연준 기준금리 인상폭"
-    },
-    "observed": {
-      "gdp": {
-        "value": 3.02,
-        "unit": "%p",
-        "note": "2002년 7.7% − 2001년 4.7% (GDP 성장률)"
-      },
-      "cpi": {
-        "value": -1.3,
-        "unit": "%p",
-        "note": "2002년 2.8% − 2001년 4.1% (소비자물가 상승률)"
-      },
-      "fx": {
-        "value": -3.04,
-        "unit": "%",
-        "note": "2002년 1251.6원 / 2001년 1290.8원 (연평균 원/달러 환율 변동률)"
-      }
-    },
-    "sources": [
-      {
-        "institution": "세계은행",
-        "title": "Lending interest rate (%), United States — 프라임레이트 (FR.INR.LEND). 연준 기준금리 대용",
-        "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/USA/indicator/FR.INR.LEND?format=json&per_page=200&date=1989:2024",
-        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
-      },
-      {
-        "institution": "세계은행",
-        "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
-        "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
-        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
-      },
-      {
-        "institution": "세계은행",
-        "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
-        "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
-        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
-      },
-      {
-        "institution": "세계은행",
-        "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
-        "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -696,9 +639,9 @@ export const VALIDATION_CASES: ValidationCase[] = [
     "id": "policyRate-2008",
     "type": "policyRate",
     "year": 2008,
-    "name": "2008년 미국 프라임레이트 8.05% → 5.09% (연평균, -296bp)",
+    "name": "2008년 미국 연방기금금리 5.02% → 1.93% (연평균, -309bp)",
     "shock": {
-      "value": -296.25,
+      "value": -309.17,
       "unit": "bp 연준 기준금리 인상폭"
     },
     "observed": {
@@ -720,31 +663,88 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "세계은행",
-        "title": "Lending interest rate (%), United States — 프라임레이트 (FR.INR.LEND). 연준 기준금리 대용",
-        "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/USA/indicator/FR.INR.LEND?format=json&per_page=200&date=1989:2024",
-        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
+        "institution": "미 연준(FRB) H.15 (FRED 경유)",
+        "title": "Federal Funds Effective Rate, 월평균 (FEDFUNDS)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
+        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
+      }
+    ]
+  },
+  {
+    "id": "policyRate-2023",
+    "type": "policyRate",
+    "year": 2023,
+    "name": "2023년 미국 연방기금금리 1.68% → 5.02% (연평균, +334bp)",
+    "shock": {
+      "value": 334.08,
+      "unit": "bp 연준 기준금리 인상폭"
+    },
+    "observed": {
+      "gdp": {
+        "value": -1.14,
+        "unit": "%p",
+        "note": "2023년 1.6% − 2022년 2.7% (GDP 성장률)"
+      },
+      "cpi": {
+        "value": -1.49,
+        "unit": "%p",
+        "note": "2023년 3.6% − 2022년 5.1% (소비자물가 상승률)"
+      },
+      "fx": {
+        "value": 1.1,
+        "unit": "%",
+        "note": "2023년 1305.7원 / 2022년 1291.4원 (연평균 원/달러 환율 변동률)"
+      }
+    },
+    "sources": [
+      {
+        "institution": "미 연준(FRB) H.15 (FRED 경유)",
+        "title": "Federal Funds Effective Rate, 월평균 (FEDFUNDS)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
+      },
+      {
+        "institution": "세계은행",
+        "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
+        "date": "2026-10-08",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
+        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
+      },
+      {
+        "institution": "세계은행",
+        "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
+        "date": "2026-10-08",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
+        "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
+      },
+      {
+        "institution": "세계은행",
+        "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
+        "date": "2026-10-08",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -780,28 +780,28 @@ export const VALIDATION_CASES: ValidationCase[] = [
         "institution": "세계은행",
         "title": "GDP growth (annual %), World (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/WLD/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/WLD/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -837,28 +837,28 @@ export const VALIDATION_CASES: ValidationCase[] = [
         "institution": "세계은행",
         "title": "GDP growth (annual %), World (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/WLD/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/WLD/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -894,28 +894,28 @@ export const VALIDATION_CASES: ValidationCase[] = [
         "institution": "세계은행",
         "title": "GDP growth (annual %), World (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/WLD/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/WLD/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -948,31 +948,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: All Commodity 연평균 지수 (PCPS A.W00.PALLFNF.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.PALLFNF?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price index of All Commodities, 월별 (PALLFNFINDEXM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PALLFNFINDEXM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -981,9 +981,9 @@ export const VALIDATION_CASES: ValidationCase[] = [
     "id": "commoditySupply-2021",
     "type": "commoditySupply",
     "year": 2021,
-    "name": "2021년 국제 원자재 가격(전체 지수) +52.5% (연평균, 전년 대비)",
+    "name": "2021년 국제 원자재 가격(전체 지수) +52.6% (연평균, 전년 대비)",
     "shock": {
-      "value": 52.55,
+      "value": 52.56,
       "unit": "% 국제 원자재 가격 상승"
     },
     "observed": {
@@ -1005,31 +1005,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: All Commodity 연평균 지수 (PCPS A.W00.PALLFNF.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.PALLFNF?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price index of All Commodities, 월별 (PALLFNFINDEXM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PALLFNFINDEXM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
@@ -1062,31 +1062,31 @@ export const VALIDATION_CASES: ValidationCase[] = [
     },
     "sources": [
       {
-        "institution": "IMF",
-        "title": "Primary Commodity Prices: All Commodity 연평균 지수 (PCPS A.W00.PALLFNF.IX)",
-        "date": "2025-07-16",
-        "url": "https://api.db.nomics.world/v22/series/IMF/PCPS/A.W00.PALLFNF?observations=1",
-        "via": "DBnomics API 직접 조회 (조회일 2026-10-22)"
+        "institution": "IMF (FRED 경유)",
+        "title": "Global price index of All Commodities, 월별 (PALLFNFINDEXM)",
+        "date": "2026-10-22",
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PALLFNFINDEXM",
+        "via": "FRED 직접 조회 (조회일 2026-10-22). 월별 자료를 해마다 12개월 평균으로 계산"
       },
       {
         "institution": "세계은행",
         "title": "GDP growth (annual %), Korea, Rep. (NY.GDP.MKTP.KD.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Inflation, consumer prices (annual %), Korea, Rep. (FP.CPI.TOTL.ZG)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/FP.CPI.TOTL.ZG?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       },
       {
         "institution": "세계은행",
         "title": "Official exchange rate (LCU per US$, period average), Korea, Rep. (PA.NUS.FCRF)",
         "date": "2026-10-08",
-        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2024",
+        "url": "https://api.worldbank.org/v2/country/KOR/indicator/PA.NUS.FCRF?format=json&per_page=200&date=1989:2025",
         "via": "세계은행 API 직접 조회 (조회일 2026-10-22)"
       }
     ]
