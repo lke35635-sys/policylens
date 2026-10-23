@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PolicyLens (가칭)
 
-## Getting Started
+경제정책의 **연혁**과, 해외 정책이 한국 경제에 번지는 **전달경로**를 공식 자료와 공식 통계로 살펴보는 교육용 웹 앱입니다.
 
-First, run the development server:
+> 교육용 정리이며 투자 조언이나 정책 평가가 아니고, 그래프는 함께 움직인 지표일 뿐 인과가 아닙니다.
+> 개인이 만든 비공식 교육용 앱이며, 어떤 정부 기관의 공식 서비스도 아닙니다.
+
+## 무엇을 할 수 있나요
+
+- **국내 정책 연혁**: 정책 이름이나 키워드(예: 기준금리, 관세, 종합부동산세)를 검색하면 변경 이력을 최신 항목부터 보여 줍니다. 정부(집권 시기)별로 묶어 보면 그 정부의 공식 경제정책 방향 문서 표현을 그대로 인용해 함께 보여 줍니다.
+- **해외 정책 연혁**: 미 연준 금리, 미국 관세처럼 해외 짝이 있는 국내 정책에서 바로 넘어갑니다.
+- **파급경로·그래프**: 해외 정책이 환율·금리·교역 등을 거쳐 국내 경제에 번지는 경로를 글 해설, 도식, 공식 통계 시계열 그래프로 보여 줍니다. 정책 시행일에 세로선이 있고, 시행 전후 변화가 평소 변동 이내이면 "뚜렷한 연관이 보이지 않았다"고 표시합니다.
+
+## 지켜서 만든 원칙
+
+- 모든 연혁·인용·해설에 **공식 출처**(기관, 문서명, 날짜, 주소)가 있습니다. 출처를 확인하지 못한 항목은 넣지 않았습니다.
+- 공식 자료의 내용(사실)과 해석(설명)을 구분해 표시합니다.
+- **AI가 자료를 만들지 않습니다.** 자료집은 사람이 공식 자료를 직접 열어 확인해 코드 안의 데이터 파일로 고정했습니다.
+- 앱은 실행 중에 외부로 요청하지 않고, 검색어를 서버에 보내거나 저장하지 않습니다. 로그인과 개인정보 수집이 없습니다.
+- 통계는 개발 단계에서 FRED(키 없이 받을 수 있는 공개 통계)를 내려받아 파일로 고정했습니다.
+
+## 자료 규모
+
+정책 18개(국내 12 + 해외 6), 정부 7개, 해외 정책별 전달경로 3~4개, 경제지표 24개.
+
+## 기술
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Zod. 배포는 Vercel.
+
+머리말의 지구 이미지는 NASA Earth Observatory의 공개 자료입니다.
+
+## 실행하기
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run check    # 자료집 검사 (출처·날짜·글자 수 규칙)
+npm run build    # 빌드 (앞에서 자료집 검사가 자동으로 돕니다)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 문서
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [PRD.md](PRD.md): 서비스 기획서
+- [PLAN.md](PLAN.md): 개발 계획과 진행 현황
+- [DESIGN.md](DESIGN.md): 설계서
+- [CLAUDE.md](CLAUDE.md): 작업 규칙

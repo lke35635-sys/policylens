@@ -1,0 +1,5 @@
+.env*
+.claude/
+.bkit/
+trash-can/
+scripts/fixtures/

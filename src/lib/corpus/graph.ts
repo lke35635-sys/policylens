@@ -54,7 +54,8 @@ export function buildChannelGraph(channel: Channel, policy: Policy, seriesById: 
       unit: s.unit,
       frequency: s.frequency,
       source: s.source,
-      latestPeriod: s.points[s.points.length - 1].period,
+      // 통계 기준일: 그래프에 그린 기간의 마지막 달(그린 점이 없으면 통계 파일의 마지막 달)
+      latestPeriod: (points.length > 0 ? points[points.length - 1] : s.points[s.points.length - 1]).period,
       points,
     });
   }

@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "check": "node --no-warnings --import ./scripts/register-ts.mjs scripts/check-corpus.mjs --release",
+    "prebuild": "npm run check",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

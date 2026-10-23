@@ -130,16 +130,18 @@ export function TransmissionView({ policy, plan, graphs }: TransmissionViewProps
             <div key={c.id} className="flex flex-col gap-2">
               <h4 className="font-semibold text-zinc-900 dark:text-zinc-50">{c.name}</h4>
               {g ? (
-                <ChannelChart graph={g} />
+                <>
+                  <ChannelChart graph={g} />
+                  <p role="note" className="break-keep rounded border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100">
+                    그래프는 함께 움직인 지표일 뿐 인과가 아닙니다.
+                  </p>
+                </>
               ) : (
                 <p className="rounded bg-zinc-100 px-3 py-2 text-sm text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">연결 통계 없음 (이 경로는 그래프를 그리지 않습니다)</p>
               )}
             </div>
           );
         })}
-        <p role="note" className="break-keep rounded border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100">
-          그래프는 함께 움직인 지표일 뿐 인과가 아닙니다.
-        </p>
       </section>
     </article>
   );

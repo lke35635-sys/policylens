@@ -42,3 +42,7 @@ next-env.d.ts
 
 # trash-can (삭제 전 임시 보관)
 trash-can/
+
+# 개발 도구 폴더 (공개 저장소에 올리지 않는다)
+.bkit/
+.claude/
