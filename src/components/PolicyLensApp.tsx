@@ -2,10 +2,13 @@
 // Design Ref: §2.1 구성도, §4.3 화면 상태와 주소 — 보기·검색·선택한 정책 상태를 브라우저 안에서 관리하고, 보기와 선택한 정책만 주소 뒤쪽(#)에 담는다 (PLAN 11번).
 // 검색어는 서버로 보내지 않고 주소에도 담지 않는다. 보기마다 검색어·마지막 검색·선택한 정책을 따로 기억해 보기를 바꿨다 돌아와도 그대로 보인다.
 import { useMemo, useState, useSyncExternalStore } from "react";
-import type { Policy } from "@/lib/corpus/types";
+import type { ChannelGraph } from "@/lib/corpus/graph";
+import type { Government, Policy, TransmissionPlan } from "@/lib/corpus/types";
 import { listPolicies, searchPolicies } from "@/lib/corpus/search";
 import { DEFAULT_STATE, VIEW_LABEL, VIEW_SCOPE, formatHash, parseHash, type View, type ViewState } from "@/lib/corpus/viewState";
+import { PolicyScreen } from "./PolicyScreen";
 import { SearchBox } from "./SearchBox";
+import { TransmissionView } from "./TransmissionView";
 import { ViewButtons } from "./ViewButtons";
 
 // 주소 뒤쪽(#)을 읽고, 바뀌면 다시 그린다 (서버에서 처음 그릴 때는 빈 값)
@@ -30,7 +33,14 @@ const PLACEHOLDER: Record<View, string> = {
 type PerView<T> = Record<View, T>;
 const perView = <T,>(v: T): PerView<T> => ({ domestic: v, foreign: v, transmission: v });
 
-export function PolicyLensApp({ policies }: { policies: Policy[] }) {
+export interface PolicyLensAppProps {
+  policies: Policy[];
+  governments: Government[];
+  transmission: TransmissionPlan[];
+  graphs: Record<string, ChannelGraph>; // 경로별 그래프 자료 (서버에서 미리 만들어 전달)
+}
+
+export function PolicyLensApp({ policies, governments, transmission, graphs }: PolicyLensAppProps) {
   const hash = useSyncExternalStore(subscribeHash, getHash, getServerHash);
   const state: ViewState = useMemo(() => (hash ? parseHash(hash, policies) : DEFAULT_STATE), [hash, policies]);
   const { view } = state;
@@ -47,6 +57,11 @@ export function PolicyLensApp({ policies }: { policies: Policy[] }) {
   const selectPolicy = (id: string) => {
     setRemembered((r) => ({ ...r, [view]: id }));
     go({ view, policyId: id });
+  };
+  // [해외 정책 바로가기] · [파급경로·그래프 바로가기]: 검색 없이 해당 보기로 넘어가 그 정책을 보여 준다
+  const goTo = (target: View, id: string) => {
+    setRemembered((r) => ({ ...r, [target]: id }));
+    go({ view: target, policyId: id });
   };
   const submit = (text?: string) => {
     const q = text ?? draft[view];
@@ -76,13 +91,18 @@ export function PolicyLensApp({ policies }: { policies: Policy[] }) {
         showPairBadge={view === "domestic"}
         onSelectPolicy={selectPolicy}
       />
-      {selected && (
-        <section aria-label="선택한 정책" className="rounded-xl border border-zinc-300 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-900">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">{selected.name}</h2>
-          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            {selected.field} · {selected.asOf}까지 반영
-          </p>
-        </section>
+      {selected && view !== "transmission" && (
+        <PolicyScreen
+          key={selected.id}
+          policy={selected}
+          policies={policies}
+          governments={governments}
+          onGoForeign={(id) => goTo("foreign", id)}
+          onGoTransmission={(id) => goTo("transmission", id)}
+        />
+      )}
+      {selected && view === "transmission" && (
+        <TransmissionView key={selected.id} policy={selected} plan={transmission.find((t) => t.foreignPolicyId === selected.id)} graphs={graphs} />
       )}
     </div>
   );

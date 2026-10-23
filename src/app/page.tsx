@@ -3,8 +3,11 @@
 import { CORPUS } from "@/data";
 import { NOTICE_TEXT } from "@/components/Notice";
 import { PolicyLensApp } from "@/components/PolicyLensApp";
+import { buildAllGraphs } from "@/lib/corpus/graph";
 
 export default function Home() {
+  // 경로별 그래프 자료(시행일 앞뒤 2년)는 서버에서 한 번 만들어 전달한다 (통계 전체를 브라우저에 보내지 않는다)
+  const graphs = buildAllGraphs(CORPUS.policies, CORPUS.transmission, CORPUS.series);
   return (
     <div className="flex flex-1 flex-col items-center bg-zinc-50 dark:bg-black">
       <main className="flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-10 sm:py-14">
@@ -25,7 +28,7 @@ export default function Home() {
         </p>
 
         {/* ③ 보기 버튼 · ④ 검색창 · ⑤ 본문 */}
-        <PolicyLensApp policies={CORPUS.policies} />
+        <PolicyLensApp policies={CORPUS.policies} governments={CORPUS.governments} transmission={CORPUS.transmission} graphs={graphs} />
       </main>
     </div>
   );
