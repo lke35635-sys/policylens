@@ -22,7 +22,7 @@ export default function Home() {
   // 경로별 그래프 자료(시행일 앞뒤 2년)는 서버에서 한 번 만들어 전달한다 (통계 전체를 브라우저에 보내지 않는다)
   const graphs = buildAllGraphs(CORPUS.policies, CORPUS.transmission, CORPUS.series);
   return (
-    <div className="flex flex-1 flex-col bg-zinc-50 dark:bg-black">
+    <div className="flex flex-1 flex-col bg-[#03193a]">
       {/* 맨 위 로고 띠 */}
       <div className="flex justify-center bg-white px-4 py-2 dark:bg-white">
         <Image src="/logo.png" alt="로고" width={2000} height={633} priority className="h-10 w-auto sm:h-12" />
@@ -58,11 +58,12 @@ export default function Home() {
       </header>
 
       <div className="flex flex-1 flex-col items-center">
-        <main className="flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-8 sm:py-10">
-
-
+        {/* 머리말과 같은 어두운 바탕 위에 흰 카드 하나로 내용을 담는다 */}
+        <main className="flex w-full max-w-3xl flex-1 flex-col px-4 pb-10 pt-2 sm:pb-12">
           {/* ③ 보기 버튼 · ④ 검색창 · ⑤ 본문 · ⑥ 바닥 */}
-          <PolicyLensApp policies={CORPUS.policies} governments={CORPUS.governments} transmission={CORPUS.transmission} graphs={graphs} />
+          <div className="flex-1 rounded-2xl bg-white p-4 text-zinc-900 shadow-lg shadow-black/30 sm:p-6">
+            <PolicyLensApp policies={CORPUS.policies} governments={CORPUS.governments} transmission={CORPUS.transmission} graphs={graphs} />
+          </div>
         </main>
       </div>
     </div>
