@@ -18,8 +18,10 @@ export interface ChannelGraph {
   channelId: string;
   effectiveDate: string; // 정책 최초 시행일 (세로선)
   effectiveMonth: number;
+  latestDate: string; // 정책 연혁에서 가장 최근 항목의 날짜 (두 번째 세로선)
+  latestMonth: number;
   fromMonth: number; // 그래프 가로 범위 (시행일 앞 2년)
-  toMonth: number; // (시행일 뒤 2년)
+  toMonth: number; // (시행일 뒤 2년, 또는 가장 최근 항목 날짜까지 — 더 먼 쪽)
   series: GraphSeries[];
   assessment: Assessment | null;
 }
@@ -40,7 +42,9 @@ export function buildChannelGraph(channel: Channel, policy: Policy, seriesById: 
   if (!channel.chart) return null;
   const eff = monthNumber(policy.firstEffectiveDate);
   const from = eff - WINDOW_MONTHS;
-  const to = eff + WINDOW_MONTHS;
+  const latestDate = policy.history.reduce((latest, h) => (h.date > latest ? h.date : latest), policy.firstEffectiveDate);
+  const latestMonth = monthNumber(latestDate);
+  const to = Math.max(eff + WINDOW_MONTHS, latestMonth + 2);
   const series: GraphSeries[] = [];
   for (const id of channel.chart.seriesIds) {
     const s = seriesById.get(id);
@@ -59,7 +63,7 @@ export function buildChannelGraph(channel: Channel, policy: Policy, seriesById: 
       points,
     });
   }
-  return { channelId: channel.id, effectiveDate: policy.firstEffectiveDate, effectiveMonth: eff, fromMonth: from, toMonth: to, series, assessment: channel.assessment ?? null };
+  return { channelId: channel.id, effectiveDate: policy.firstEffectiveDate, effectiveMonth: eff, latestDate, latestMonth, fromMonth: from, toMonth: to, series, assessment: channel.assessment ?? null };
 }
 
 // 해외 정책들의 모든 경로 그래프 자료를 한꺼번에 만든다 (서버에서 한 번 만들어 화면에 전달한다)
@@ -77,10 +81,10 @@ export function buildAllGraphs(policies: Policy[], plans: { foreignPolicyId: str
   return out;
 }
 
-// 그래프 가로 눈금(해마다 1월)을 정한다
-export function yearTicks(fromMonth: number, toMonth: number): { month: number; label: string }[] {
+// 그래프 가로 눈금(step년마다 1월, 기본 해마다)을 정한다
+export function yearTicks(fromMonth: number, toMonth: number, step = 1): { month: number; label: string }[] {
   const ticks: { month: number; label: string }[] = [];
-  for (let y = Math.ceil(fromMonth / 12); y * 12 <= toMonth; y += 1) ticks.push({ month: y * 12, label: String(y) });
+  for (let y = Math.ceil(fromMonth / 12 / step) * step; y * 12 <= toMonth; y += step) ticks.push({ month: y * 12, label: String(y) });
   return ticks;
 }
 

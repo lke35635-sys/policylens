@@ -27,6 +27,9 @@ function Panel({ s, index, graph }: { s: GraphSeries; index: number; graph: Chan
   const marker = MARKERS[index % MARKERS.length];
   const innerW = W - LEFT - RIGHT;
   const innerH = PANEL_H - TOP - BOTTOM;
+  // 기간이 길면(최근 항목까지 늘린 경우) 연도 눈금을 듬성듬성 찍어 글자가 겹치지 않게 한다
+  const years = (graph.toMonth - graph.fromMonth) / 12;
+  const tickStep = Math.max(1, Math.ceil(years / 12));
   const x = (month: number): number => LEFT + ((month - graph.fromMonth) / (graph.toMonth - graph.fromMonth)) * innerW;
   const axis = valueAxis(s.points.map((p) => p.value));
   const y = (v: number): number => TOP + (1 - (v - axis.lo) / (axis.hi - axis.lo)) * innerH;
@@ -35,7 +38,7 @@ function Panel({ s, index, graph }: { s: GraphSeries; index: number; graph: Chan
   return (
     <svg viewBox={`0 0 ${W} ${PANEL_H}`} role="img" aria-label={`${s.name} 그래프`} className="h-auto w-full">
       <title>{s.name}</title>
-      <desc>{`${s.name}(${s.unit}, ${s.frequency === "monthly" ? "월별" : "분기별"}) 시행일 ${graph.effectiveDate} 앞뒤 각 2년. 값 표는 그래프 아래에 있습니다.`}</desc>
+      <desc>{`${s.name}(${s.unit}, ${s.frequency === "monthly" ? "월별" : "분기별"}) 최초 시행일 ${graph.effectiveDate}과 정책의 가장 최근 항목 ${graph.latestDate}에 세로선이 있습니다. 값 표는 그래프 아래에 있습니다.`}</desc>
       {axis.ticks.map((t) => (
         <g key={t}>
           <line x1={LEFT} x2={W - RIGHT} y1={y(t)} y2={y(t)} stroke="currentColor" strokeOpacity={0.12} />
@@ -44,7 +47,7 @@ function Panel({ s, index, graph }: { s: GraphSeries; index: number; graph: Chan
           </text>
         </g>
       ))}
-      {yearTicks(graph.fromMonth, graph.toMonth).map((t) => (
+      {yearTicks(graph.fromMonth, graph.toMonth, tickStep).map((t) => (
         <g key={t.month}>
           <line x1={x(t.month)} x2={x(t.month)} y1={PANEL_H - BOTTOM} y2={PANEL_H - BOTTOM + 4} stroke="currentColor" strokeOpacity={0.5} />
           <text x={x(t.month)} y={PANEL_H - 8} textAnchor="middle" fontSize={11} fill="currentColor" fillOpacity={0.75}>
@@ -59,6 +62,17 @@ function Panel({ s, index, graph }: { s: GraphSeries; index: number; graph: Chan
           시행 {graph.effectiveDate}
         </text>
       )}
+      {/* 정책의 가장 최근 항목 날짜 세로선 (최초 시행일과 다를 때만) */}
+      {graph.latestMonth !== graph.effectiveMonth && (
+        <>
+          <line x1={x(graph.latestMonth)} x2={x(graph.latestMonth)} y1={TOP} y2={PANEL_H - BOTTOM} stroke="#1d4ed8" strokeWidth={1.5} strokeDasharray="5 3" />
+          {index === 0 && (
+            <text x={x(graph.latestMonth) - 4} y={TOP + 10} textAnchor="end" fontSize={11} fill="#1d4ed8" fontWeight={600}>
+              최신 항목 {graph.latestDate}
+            </text>
+          )}
+        </>
+      )}
       <path d={path} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" />
       {last && <Marker kind={marker} x={x(last.month)} y={y(last.value)} color={color} />}
     </svg>
@@ -70,7 +84,9 @@ export function ChannelChart({ graph }: { graph: ChannelGraph }) {
     <figure className="flex flex-col gap-3" aria-label="시계열 그래프">
       <figcaption className="flex flex-wrap items-center gap-2 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
         <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-xs font-semibold text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200">사실</span>
-        시행일({graph.effectiveDate}) 앞뒤 각 2년의 공식 통계
+        {graph.toMonth > graph.effectiveMonth + 26
+          ? `최초 시행일(${graph.effectiveDate}) 2년 전부터 정책의 가장 최근 항목(${graph.latestDate})까지의 공식 통계`
+          : `시행일(${graph.effectiveDate}) 앞뒤 각 2년의 공식 통계`}
       </figcaption>
 
       {graph.assessment?.unclear && (
