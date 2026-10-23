@@ -46,25 +46,22 @@ export default function Home() {
           <br />
           공식 자료로 살펴보는 교육용 앱
         </p>
-
-        {/* ② 안내 띠: 머리말 안의 유리 알약 (모든 화면에 항상 보인다) */}
-        <p
-          role="note"
-          className="liquid-glass mx-auto mt-6 w-fit max-w-full break-keep rounded-2xl px-5 py-3 text-xs text-white/90 sm:whitespace-nowrap sm:text-[13px]"
-        >
-          {NOTICE_TEXT}
-        </p>
         </div>
       </header>
 
       <div className="flex flex-1 flex-col items-center">
         {/* 머리말과 같은 어두운 바탕 위에 흰 카드 하나로 내용을 담는다 */}
-        <main className="flex w-full max-w-3xl flex-1 flex-col px-4 pb-10 pt-2 sm:pb-12">
+        <main className="flex w-full max-w-3xl flex-1 flex-col px-4 pb-6 pt-2">
           {/* ③ 보기 버튼 · ④ 검색창 · ⑤ 본문 · ⑥ 바닥 */}
           <div className="flex-1 rounded-2xl bg-white p-4 text-zinc-900 shadow-lg shadow-black/30 sm:p-6">
             <PolicyLensApp policies={CORPUS.policies} governments={CORPUS.governments} transmission={CORPUS.transmission} graphs={graphs} />
           </div>
         </main>
+
+        {/* ② 안내 문구: 페이지 맨 아래, 어느 보기에서나 항상 보인다 (데스크톱에서는 한 줄) */}
+        <p role="note" className="break-keep px-4 pb-8 text-center text-xs leading-relaxed text-sky-100/80 sm:whitespace-nowrap sm:text-[13px]">
+          {NOTICE_TEXT}
+        </p>
       </div>
     </div>
   );
