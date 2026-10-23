@@ -10,7 +10,7 @@ export interface GraphSeries {
   unit: string;
   frequency: Series["frequency"];
   source: Source; // 출처(기관, 통계명, 조회일)
-  latestPeriod: string; // 기준일: 그 정책 연혁에서 가장 최근 항목의 날짜
+  latestPeriod: string; // 통계 기준일: 이 통계에 들어 있는 가장 최근 기간
   points: { period: string; month: number; value: number }[]; // month: 월 번호 (그래프 가로 위치)
 }
 
@@ -54,8 +54,8 @@ export function buildChannelGraph(channel: Channel, policy: Policy, seriesById: 
       unit: s.unit,
       frequency: s.frequency,
       source: s.source,
-      // 기준일: 그 정책 연혁에서 가장 최근 항목의 날짜 (사용자 요청: 정책의 제일 최신 내용 기준)
-      latestPeriod: policy.history.reduce((latest, h) => (h.date > latest ? h.date : latest), ""),
+      // 통계 기준일: 그래프에 그린 기간의 마지막 달(그린 점이 없으면 통계 파일의 마지막 달)
+      latestPeriod: (points.length > 0 ? points[points.length - 1] : s.points[s.points.length - 1]).period,
       points,
     });
   }

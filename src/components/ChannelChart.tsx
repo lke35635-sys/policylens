@@ -88,7 +88,7 @@ export function ChannelChart({ graph }: { graph: ChannelGraph }) {
             </svg>
             {s.name}
             <span className="font-normal text-zinc-600 dark:text-zinc-400">
-              ({s.unit} · {s.frequency === "monthly" ? "월별" : "분기별"} · 기준일 {s.latestPeriod}, 정책의 가장 최근 항목)
+              ({s.unit} · {s.frequency === "monthly" ? "월별" : "분기별"} · 통계 기준일 {s.latestPeriod})
             </span>
           </p>
           <Panel s={s} index={i} graph={graph} />
