@@ -29,7 +29,7 @@ export function HistoryItemCard({ item }: { item: HistoryItem }) {
 
 export function HistoryTimeline({ items }: { items: HistoryItem[] }) {
   return (
-    <ol aria-label="연혁 (시간순)" className="flex flex-col">
+    <ol aria-label="연혁 (최신순)" className="flex flex-col">
       {items.map((item) => (
         <HistoryItemCard key={item.id} item={item} />
       ))}

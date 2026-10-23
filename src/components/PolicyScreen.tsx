@@ -41,7 +41,7 @@ export function PolicyScreen({ policy, policies, governments, onGoForeign, onGoT
       {/* 묶음 방식: 국내 정책만 고를 수 있다 */}
       {isDomestic && (
         <div role="group" aria-label="묶음 방식" className="flex gap-2">
-          {([["time", "시간순"], ["government", "정부별"]] as const).map(([m, label]) => (
+          {([["time", "시간순(최신부터)"], ["government", "정부별(최신부터)"]] as const).map(([m, label]) => (
             <button
               key={m}
               type="button"
