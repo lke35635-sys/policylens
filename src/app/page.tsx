@@ -50,19 +50,9 @@ export default function Home() {
         {/* ② 안내 띠: 머리말 안의 유리 알약 (모든 화면에 항상 보인다) */}
         <p
           role="note"
-          className="liquid-glass mx-auto mt-6 max-w-2xl break-keep rounded-2xl px-5 py-3 text-sm text-white/90"
+          className="liquid-glass mx-auto mt-6 w-fit max-w-full break-keep rounded-2xl px-5 py-3 text-xs text-white/90 sm:whitespace-nowrap sm:text-[13px]"
         >
-          {/* "아니고," 바로 뒤에서 줄을 바꾼다 (문구 자체는 그대로) */}
-          {NOTICE_TEXT.split("아니고, ").map((part, i, parts) =>
-            i < parts.length - 1 ? (
-              <span key={i}>
-                {part}아니고,
-                <br />
-              </span>
-            ) : (
-              part
-            ),
-          )}
+          {NOTICE_TEXT}
         </p>
         </div>
       </header>
