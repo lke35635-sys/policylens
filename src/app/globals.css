@@ -30,10 +30,10 @@ body {
 
 /* 반투명 유리: 어두운 배경 위에서 테두리만 은은하게 빛난다 */
 .liquid-glass {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(2, 12, 32, 0.5);
   background-blend-mode: luminosity;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: none;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
   position: relative;
@@ -71,7 +71,7 @@ body {
   box-shadow: 0 0 18px rgba(32, 101, 142, 0.45), 0 0 36px rgba(107, 173, 196, 0.25);
 }
 
-/* 머리말 배경: Serene 프롬프트의 4색 세로 그라데이션 */
+/* 머리말 배경: 우주를 닮은 깊은 네이비 (그 위에 실제 지구가 걸린다) */
 .hero-gradient {
-  background: linear-gradient(180deg, #010a17 0%, #0a4267 30%, #20658e 60%, #6badc4 100%);
+  background: linear-gradient(180deg, #000308 0%, #010a17 45%, #03193a 100%);
 }

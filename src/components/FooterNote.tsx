@@ -20,6 +20,7 @@ export function FooterNote({ policy, policies, statsPeriods }: { policy: Policy 
       ) : (
         <p className="break-keep">자료집 작성일 {compiled}. 모든 내용은 공식 자료의 출처와 함께 정리했고, 정책을 고르면 그 정책의 기준일이 여기에 나옵니다.</p>
       )}
+      <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-500">머리말 지구 이미지: NASA Earth Observatory (공개 자료, 지형·도시 불빛 지도)</p>
     </footer>
   );
 }
