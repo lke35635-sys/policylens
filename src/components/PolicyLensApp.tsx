@@ -1,7 +1,7 @@
 "use client";
 // Design Ref: §2.1 구성도, §4.3 화면 상태와 주소 — 보기·검색·선택한 정책 상태를 브라우저 안에서 관리하고, 보기와 선택한 정책만 주소 뒤쪽(#)에 담는다 (PLAN 11번).
 // 검색어는 서버로 보내지 않고 주소에도 담지 않는다. 보기마다 검색어·마지막 검색·선택한 정책을 따로 기억해 보기를 바꿨다 돌아와도 그대로 보인다.
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { ChannelGraph } from "@/lib/corpus/graph";
 import type { Government, Policy, TransmissionPlan } from "@/lib/corpus/types";
 import { listPolicies, searchPolicies } from "@/lib/corpus/search";
@@ -76,6 +76,15 @@ export function PolicyLensApp({ policies, governments, transmission, graphs }: P
   const all = useMemo(() => listPolicies(policies, scope), [policies, scope]);
   const selected = state.policyId ? policies.find((p) => p.id === state.policyId) : undefined;
 
+  // 정책을 고르면(또는 바로가기로 넘어가면) 그 정책 화면이 보이도록 부드럽게 내려간다. '동작 줄이기' 설정이면 바로 이동한다.
+  const resultRef = useRef<HTMLDivElement>(null);
+  const selectedId = selected?.id;
+  useEffect(() => {
+    if (!selectedId) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    resultRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  }, [selectedId, view]);
+
   return (
     <div className="flex flex-col gap-6">
       <ViewButtons view={view} onSelect={selectView} />
@@ -92,19 +101,21 @@ export function PolicyLensApp({ policies, governments, transmission, graphs }: P
         showPairBadge={view === "domestic"}
         onSelectPolicy={selectPolicy}
       />
-      {selected && view !== "transmission" && (
-        <PolicyScreen
-          key={selected.id}
-          policy={selected}
-          policies={policies}
-          governments={governments}
-          onGoForeign={(id) => goTo("foreign", id)}
-          onGoTransmission={(id) => goTo("transmission", id)}
-        />
-      )}
-      {selected && view === "transmission" && (
-        <TransmissionView key={selected.id} policy={selected} plan={transmission.find((t) => t.foreignPolicyId === selected.id)} graphs={graphs} />
-      )}
+      <div ref={resultRef} className="scroll-mt-4 flex flex-col gap-6 empty:hidden">
+        {selected && view !== "transmission" && (
+          <PolicyScreen
+            key={selected.id}
+            policy={selected}
+            policies={policies}
+            governments={governments}
+            onGoForeign={(id) => goTo("foreign", id)}
+            onGoTransmission={(id) => goTo("transmission", id)}
+          />
+        )}
+        {selected && view === "transmission" && (
+          <TransmissionView key={selected.id} policy={selected} plan={transmission.find((t) => t.foreignPolicyId === selected.id)} graphs={graphs} />
+        )}
+      </div>
       <FooterNote
         policy={selected}
         policies={policies}
