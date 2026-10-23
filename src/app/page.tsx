@@ -52,7 +52,17 @@ export default function Home() {
           role="note"
           className="liquid-glass mx-auto mt-6 max-w-2xl break-keep rounded-2xl px-5 py-3 text-sm text-white/90"
         >
-          {NOTICE_TEXT}
+          {/* "아니고," 바로 뒤에서 줄을 바꾼다 (문구 자체는 그대로) */}
+          {NOTICE_TEXT.split("아니고, ").map((part, i, parts) =>
+            i < parts.length - 1 ? (
+              <span key={i}>
+                {part}아니고,
+                <br />
+              </span>
+            ) : (
+              part
+            ),
+          )}
         </p>
         </div>
       </header>
