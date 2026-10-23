@@ -3,6 +3,7 @@
 // ① 머리말은 화면 맨 위 가로 전체를 네이비색 그라데이션으로 채우고, 이름은 가운데 정렬하며 "Lens"의 s 오른쪽 대각선 위에 작은 돋보기를 얹는다.
 import Image from "next/image";
 import { CORPUS } from "@/data";
+import { EarthBackdrop } from "@/components/EarthBackdrop";
 import { NOTICE_TEXT } from "@/components/Notice";
 import { PolicyLensApp } from "@/components/PolicyLensApp";
 import { buildAllGraphs } from "@/lib/corpus/graph";
@@ -28,7 +29,10 @@ export default function Home() {
       </div>
 
       {/* ① 머리말: 네이비 그라데이션 띠, 가운데 정렬 */}
-      <header className="hero-gradient px-4 pb-10 pt-14 text-center sm:pb-12 sm:pt-16">
+      <header className="hero-gradient relative overflow-hidden px-4 pb-16 pt-14 text-center sm:pb-24 sm:pt-16">
+        {/* 뒷배경: 우주에서 본 지구 (장식) */}
+        <EarthBackdrop />
+        <div className="relative z-10">
         <h1 aria-label="PolicyLens" className="text-glow text-5xl font-bold tracking-tight text-white sm:text-6xl">
           <span aria-hidden="true">
             PolicyLen
@@ -50,6 +54,7 @@ export default function Home() {
         >
           {NOTICE_TEXT}
         </p>
+        </div>
       </header>
 
       <div className="flex flex-1 flex-col items-center">
