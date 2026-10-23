@@ -1,6 +1,7 @@
 // Design Ref: §3.1 전체 배치 — 한 페이지(/), 위에서 아래로 ① 머리말 → ② 안내 띠 → ③ 보기 버튼 → ④ 검색창 → ⑤ 본문 → ⑥ 바닥.
 // 서버 컴포넌트: 자료집을 읽어 클라이언트 컴포넌트(PolicyLensApp)에 전달한다. 요청마다 계산하지 않고, 검색어는 서버로 오지 않는다.
 // ① 머리말은 화면 맨 위 가로 전체를 네이비색 그라데이션으로 채우고, 이름은 가운데 정렬하며 "Lens"의 s 오른쪽 대각선 위에 작은 돋보기를 얹는다.
+import Image from "next/image";
 import { CORPUS } from "@/data";
 import { NOTICE_TEXT } from "@/components/Notice";
 import { PolicyLensApp } from "@/components/PolicyLensApp";
@@ -21,6 +22,11 @@ export default function Home() {
   const graphs = buildAllGraphs(CORPUS.policies, CORPUS.transmission, CORPUS.series);
   return (
     <div className="flex flex-1 flex-col bg-zinc-50 dark:bg-black">
+      {/* 맨 위 로고 띠 */}
+      <div className="flex justify-center bg-white px-4 py-2 dark:bg-white">
+        <Image src="/logo.png" alt="로고" width={2000} height={633} priority className="h-10 w-auto sm:h-12" />
+      </div>
+
       {/* ① 머리말: 네이비 그라데이션 띠, 가운데 정렬 */}
       <header className="bg-gradient-to-b from-[#071633] via-[#0f2a5c] to-[#1d4380] px-4 pb-10 pt-14 text-center sm:pb-12 sm:pt-16">
         <h1 aria-label="PolicyLens" className="text-5xl font-bold tracking-tight text-white sm:text-6xl">
