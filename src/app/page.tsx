@@ -41,7 +41,7 @@ export default function Home() {
             </span>
           </span>
         </h1>
-        <p className="mx-auto mt-4 break-keep text-base text-sky-100 sm:text-lg">
+        <p className="liquid-glass mx-auto mt-5 w-fit max-w-full break-keep rounded-2xl px-6 py-3 text-base text-sky-100 sm:text-lg">
           경제정책의 변천과 해외 정책이 국내 경제에 번지는 경로를
           <br />
           공식 자료로 살펴보는 교육용 앱
@@ -59,9 +59,11 @@ export default function Home() {
         </main>
 
         {/* ② 안내 문구: 페이지 맨 아래, 어느 보기에서나 항상 보인다 (데스크톱에서는 한 줄) */}
-        <p role="note" className="break-keep px-4 pb-8 text-center text-xs leading-relaxed text-sky-100/80 sm:whitespace-nowrap sm:text-[13px]">
-          {NOTICE_TEXT}
-        </p>
+        <div className="flex w-full justify-center px-4 pb-8">
+          <p role="note" className="liquid-glass w-fit max-w-full break-keep rounded-2xl px-5 py-3 text-center text-xs leading-relaxed text-white/90 sm:whitespace-nowrap sm:text-[13px]">
+            {NOTICE_TEXT}
+          </p>
+        </div>
       </div>
     </div>
   );
