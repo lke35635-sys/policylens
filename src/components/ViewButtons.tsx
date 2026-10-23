@@ -12,9 +12,9 @@ export function ViewButtons({ view, onSelect }: { view: View; onSelect: (view: V
             type="button"
             aria-pressed={active}
             onClick={() => onSelect(v)}
-            className={`rounded-lg border px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
+            className={`rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 ${
               active
-                ? "border-blue-700 bg-blue-700 text-white"
+                ? "button-glow border-[#0a4267] bg-[#0a4267] text-white"
                 : "border-zinc-300 bg-white text-zinc-800 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
             }`}
           >

@@ -33,11 +33,11 @@ export function SearchBox(props: SearchBoxProps) {
           onChange={(e) => onDraftChange(e.target.value)}
           placeholder={placeholder}
           aria-label={label}
-          className="min-w-0 flex-1 rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-base text-zinc-900 placeholder:text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
+          className="min-w-0 flex-1 rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-base text-zinc-900 placeholder:text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50"
         />
         <button
           type="submit"
-          className="shrink-0 rounded-lg bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          className="button-glow shrink-0 rounded-full bg-[#0a4267] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#20658e] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
         >
           검색
         </button>

@@ -28,8 +28,8 @@ export default function Home() {
       </div>
 
       {/* ① 머리말: 네이비 그라데이션 띠, 가운데 정렬 */}
-      <header className="bg-gradient-to-b from-[#071633] via-[#0f2a5c] to-[#1d4380] px-4 pb-10 pt-14 text-center sm:pb-12 sm:pt-16">
-        <h1 aria-label="PolicyLens" className="text-5xl font-bold tracking-tight text-white sm:text-6xl">
+      <header className="hero-gradient px-4 pb-10 pt-14 text-center sm:pb-12 sm:pt-16">
+        <h1 aria-label="PolicyLens" className="text-glow text-5xl font-bold tracking-tight text-white sm:text-6xl">
           <span aria-hidden="true">
             PolicyLen
             <span className="relative inline-block">
@@ -42,17 +42,19 @@ export default function Home() {
           <br />
           공식 자료로 살펴보는 교육용 앱
         </p>
+
+        {/* ② 안내 띠: 머리말 안의 유리 알약 (모든 화면에 항상 보인다) */}
+        <p
+          role="note"
+          className="liquid-glass mx-auto mt-6 max-w-2xl break-keep rounded-2xl px-5 py-3 text-sm text-white/90"
+        >
+          {NOTICE_TEXT}
+        </p>
       </header>
 
       <div className="flex flex-1 flex-col items-center">
         <main className="flex w-full max-w-3xl flex-1 flex-col gap-6 px-4 py-8 sm:py-10">
-          {/* ② 안내 띠 (모든 화면에 항상 보인다) */}
-          <p
-            role="note"
-            className="break-keep rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100"
-          >
-            {NOTICE_TEXT}
-          </p>
+
 
           {/* ③ 보기 버튼 · ④ 검색창 · ⑤ 본문 · ⑥ 바닥 */}
           <PolicyLensApp policies={CORPUS.policies} governments={CORPUS.governments} transmission={CORPUS.transmission} graphs={graphs} />
