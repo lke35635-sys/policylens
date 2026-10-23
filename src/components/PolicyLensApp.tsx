@@ -6,6 +6,7 @@ import type { ChannelGraph } from "@/lib/corpus/graph";
 import type { Government, Policy, TransmissionPlan } from "@/lib/corpus/types";
 import { listPolicies, searchPolicies } from "@/lib/corpus/search";
 import { DEFAULT_STATE, VIEW_LABEL, VIEW_SCOPE, formatHash, parseHash, type View, type ViewState } from "@/lib/corpus/viewState";
+import { FooterNote } from "./FooterNote";
 import { PolicyScreen } from "./PolicyScreen";
 import { SearchBox } from "./SearchBox";
 import { TransmissionView } from "./TransmissionView";
@@ -104,6 +105,17 @@ export function PolicyLensApp({ policies, governments, transmission, graphs }: P
       {selected && view === "transmission" && (
         <TransmissionView key={selected.id} policy={selected} plan={transmission.find((t) => t.foreignPolicyId === selected.id)} graphs={graphs} />
       )}
+      <FooterNote
+        policy={selected}
+        policies={policies}
+        statsPeriods={
+          selected && view === "transmission"
+            ? Object.values(graphs)
+                .filter((g) => transmission.find((t) => t.foreignPolicyId === selected.id)?.channels.some((c) => c.id === g.channelId))
+                .flatMap((g) => g.series.map((s) => s.latestPeriod))
+            : []
+        }
+      />
     </div>
   );
 }
